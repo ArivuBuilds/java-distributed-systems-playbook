@@ -1,5 +1,7 @@
 package com.arivubuilds.concurrency.locks;
 
+package com.arivubuilds.concurrency.locks;
+
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
