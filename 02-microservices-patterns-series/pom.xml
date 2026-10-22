@@ -16,6 +16,7 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>08-cqrs-projection-engine</module>
         <module>09-transactional-outbox-cdc</module>
     </modules>
 </project>
