@@ -14,7 +14,7 @@ A production-focused reference repository documenting core Java internals, 12 mi
 ### 🧵 Module 1: Java Internals & High-Concurrency Mechanics
 - [x] **01-memory-model:** Java Memory Model (`volatile`, StoreLoad barriers, Happens-Before)
 - [x] **02-locks-and-aqs:** `ReentrantLock` vs. `synchronized` & Multi-Condition Queues
-- [ ] **03-aqs-internals:** AbstractQueuedSynchronizer (AQS) state mechanics & CLH queue
+- [x] **03-aqs-internals:** AbstractQueuedSynchronizer (AQS) state mechanics & CLH queue
 - [ ] **04-virtual-threads:** Virtual Threads (Project Loom) vs. Platform Thread pools: throughput & pinning
 - [ ] **05-jvm-tuning-gc:** Low-latency garbage collectors (G1GC vs. Generational ZGC)
 
