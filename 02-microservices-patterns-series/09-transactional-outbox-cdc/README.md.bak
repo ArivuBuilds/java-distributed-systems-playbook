@@ -1,0 +1,5 @@
+# 09: Event-Driven Architecture & The Transactional Outbox Pattern
+
+## 🧠 Architectural Overview
+
+In a distributed microservice topology, executing a local database update and publishing an event to a message broker (e.g., Apache Kafka or RabbitMQ) represents the classical **dual-write problem**:

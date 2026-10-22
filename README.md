@@ -24,7 +24,7 @@ A production-focused reference repository documenting core Java internals, 12 mi
 Each pattern includes architectural trade-offs, sequence diagrams, and runnable code:
 - [ ] **Day 01:** Circuit Breaker (Resilience4j state transitions & fallback isolation)
 - [ ] **Day 02:** Saga Orchestration (Compensating transactions in policy binding)
-- [ ] **Day 03:** Transactional Outbox Pattern (Zero-message-loss via Debezium CDC)
+- [x] **Day 03:** Transactional Outbox Pattern (CDC with Debezium) (Zero-message-loss via Debezium CDC)
 - [ ] **Day 04:** Distributed Rate Limiter (Redis token bucket algorithm)
 - [ ] **Day 05:** Bulkhead Pattern (Thread pool vs. Semaphore isolation)
 - [ ] **Day 06:** Retry with Exponential Backoff & Jitter (Preventing thundering herds)
