@@ -15,7 +15,7 @@ A production reference covering distributed patterns, architectural trade-offs, 
 | **Day 05** | **Bulkhead Isolation Pattern** | Thread pool vs. Semaphore thread isolation | Backfill Scheduled |
 | **Day 06** | **Retry with Exponential Backoff** | Decorrelated jitter to eliminate thundering herds | Backfill Scheduled |
 | **Day 07** | **Database-per-Service Pattern** | Polyglot persistence, bounded contexts & join elimination | Backfill Scheduled |
-| **Day 08** | **CQRS Pattern** | Separating command writes from read projections | In Progress |
+| **Day 08** | **CQRS Pattern** | Separating command writes from read projections | **Completed** |
 | **Day 09** | **Transactional Outbox & CDC** | Dual-write mitigation via PostgreSQL WAL & Debezium | **Completed** |
 | **Day 10** | **Saga Pattern** | Distributed orchestration vs. choreography workflows | Upcoming |
 | **Day 11** | **Sidecar & Service Mesh** | Envoy L7 interception, mTLS & distributed tracing | Upcoming |
@@ -24,4 +24,5 @@ A production reference covering distributed patterns, architectural trade-offs, 
 ---
 
 ## 🧪 Modules Available
+- [`08-cqrs-projection-engine`](08-cqrs-projection-engine/): CQRS architecture segregating normalized transactional write aggregates from read projections.
 - [`09-transactional-outbox-cdc`](09-transactional-outbox-cdc/): Change Data Capture (CDC) via Debezium and atomic transactional outbox tables.
