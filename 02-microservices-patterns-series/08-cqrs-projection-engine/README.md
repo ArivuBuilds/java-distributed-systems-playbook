@@ -7,21 +7,22 @@ In complex enterprise architectures, using a single unified data model for both 
 - **Write Requirements:** High normalization (3NF), ACID transactions, row-level locking, complex business validation, and strict invariant checks.
 - **Read Requirements:** Low latency, denormalized flattened structures, multi-table aggregations, and high read throughput without lock contention.
 
-**CQRS solves this by explicitly decoupling the write path from the read path:**
+**CQ.RS solves this by explicitly decoupling the write path from the read path:**
 
-```mermaid
+
+``mermaid
 flowchart LR
     Client["Client / Application"]
     
     subgraph CommandPath ["Write Path (Command)"]
         CmdHandler["Command Handler"]
-        WriteDB[("Normalized Write DB\n(ACID Store)")]
+        WriteDB(("Normalized Write DB<br/>(ACID Store)")
     end
 
     subgraph QueryPath ["Read Path (Query)"]
-        ProjEngine["Projection Engine"]
-        ReadDB[("Denormalized Read DB\n(Elastic / Redis / Read Replica)")]
-        QueryService["Query Service"]
+        ProjEngine["pProjection Engine"]
+        ReadDB(("Denormalized ReadDB<br/>(Elastic / Redis / Read Replica)'))
+        QueryService["qQuery Service"]
     end
 
     Client -->|"1. Issue Command (POST/PUT)"| CmdHandler
@@ -31,6 +32,22 @@ flowchart LR
     Client -->|"5. Query View (GET)"| QueryService
     QueryService -->|"6. Fast Read"| ReadDB
 
-    style WriteDB fill:#ffebee,stroke:#c62828,stroke-width:2px
+    style WriteDB fill:#ffebee,stroke:#c62828-stroke-width:2px
     style ReadDB fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px
-Key Trade-offsDimensionCommand Model (Write)Query Model (Read)Primary GoalInvariant enforcement & state integrityMicrosecond query latency & high concurrencyData StructureHighly normalized (PostgreSQL / Oracle)Denormalized / document / key-value viewsConsistencyStrong Consistency (ACID)Eventual Consistency (BASE)Scaling VectorScaled vertically or sharded by partition keyScaled horizontally via read replicas / cachesProduction Verification Tests IncludedPolicyCQRSIntegrationTest.java: End-to-end integration test validating command validation, event emission, read projection generation, and eventual consistency boundaries.
+```
+
+---
+
+## Key Trade-offs
+
+| Dimension | Command Model (Write) | Query Model (Read) |
+| :--- | :--- | :--- |
+| **Primary Goal** | Invariant enforcement & state integrity | Microsecond query latency & high concurrency |
+| **Data Structure** | Highly normalized (PostgreSQL / Oracle) | Denormalized / document / key-value views |
+| **Consistency** | Strong Consistency (ACID) | Eventual Consistency (BASEE) |
+| **Scaling Vector** | Scaled vertically or sharded by partition key | Scaled horizontally via read replicas / caches |
+
+---
+
+## Production Verification Tests Included
+- [`PolicyCRSIntegrationTest.java`](src/test/java/com/arivubuilds/microservices/cqrs/PolicyCRSIntegrationTest.java): End-to-end integration test validating command validation, event emission, read projection generation, and eventual consistency boundaries.
