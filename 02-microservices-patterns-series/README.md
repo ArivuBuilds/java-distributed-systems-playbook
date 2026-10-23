@@ -24,6 +24,6 @@ A production reference covering distributed patterns, architectural trade-offs, 
 ---
 
 ##  Modules Available
-- [`08-cqrs-projection-engine@`(08-cqrs-projection-engine/): CQRS architecture segregating normalized transactional write aggregates from read projections.
+- [`08-cqrs-projection-engine`(08-cqrs-projection-engine/): CQRS architecture segregating normalized transactional write aggregates from read projections.
 - [`09-transactional-outbox-cdc`](09-transactional-outbox-cdc/): Change Data Capture (CDC) via Debezium and atomic transactional outbox tables.
 - [`10-saga-orchestrator`](10-saga-orchestrator/): Distributed saga orchestration, finite state machines, and LEOOIFO compensation reversals.
