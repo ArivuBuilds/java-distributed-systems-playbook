@@ -1,6 +1,6 @@
 # Java and Distributed Systems Playbook
 
-An enterprise-grade architecture and code playbook covering low-level Java 21 internals, resilient microservices distributed patterns, edge API architecture, and high-scale LLM Infrastructure.
+An enterprise-grade architecture and code playbook covering low-level Java 21 internals, resilient microservices distributed patterns, edge API architecture, high-scale LLM Infrastructure, and systems-focused DSA.
 
 Maintained by: **ArivuBuilds** (`@ArivuBuilds`)
 
@@ -8,17 +8,16 @@ Maintained by: **ArivuBuilds** (`@ArivuBuilds`)
 
 ## Repository Architecture and Modules
 
-```text
-main root
-|-- 01-java-internals-mastery/          # JMM, AQS, lock-free algorithms, virtual threads
-|-- 02-microservices-patterns-series/   # 12-Day Distributed Systems Architecture Series
-|   |-- [x] 08-cqrs-projection-engine/  # CQRS, event-sourcing, denormalized read-views
-|   |-- [x] 09-transactional-outbox-cdc/# Transactional Outbox, Debezium CDC, Kafka
-|   `-- [x] 10-saga-orchestrator/       # Distributed saga orchestration and LIFO compensations
-|-- 03-api-architecture-series/         # 12-Day API Architecture and Protocols Series
-|   `-- Resource Modeling, gRPC, WebSockets, SSE, Rate Limiting, Idempotency
-`-- 04-ai-system-design/                # 9-Day LLM Infrastructure, vLLM, Semantic Cache
-```
+- **[`01-java-internals-mastery/`](01-java-internals-mastery/)** — JMM, AQS, lock-free algorithms, virtual threads
+- **[`02-microservices-patterns-series/`](02-microservices-patterns-series/)** — 12-Day Distributed Systems Architecture Series
+  - [x] [`08-cqrs-projection-engine/`](02-microservices-patterns-series/08-cqrs-projection-engine/) — CQRS, event-sourcing, denormalized read-views
+  - [x] [`09-transactional-outbox-cdc/`](02-microservices-patterns-series/09-transactional-outbox-cdc/) — Transactional Outbox, Debezium CDC, Kafka
+  - [x] [`10-saga-orchestrator/`](02-microservices-patterns-series/10-saga-orchestrator/) — Distributed saga orchestration and LIFO compensations
+- **[`03-api-architecture-series/`](03-api-architecture-series/)** — 12-Day API Architecture and Protocols Series
+  - RESTful Modeling, gRPC, WebSockets, SSE, Rate Limiting, Idempotency
+- **[`04-ai-system-design/`](04-ai-system-design/)** — 9-Day LLM Infrastructure, vLLM, Semantic Cache
+- **[`05-dsa-systems-mastery/`](05-dsa-systems-mastery/)** — 12-Pattern Systems DSA, mechanical sympathy, zero-allocation engines
+  - [x] [`01-arrays-and-two-pointers/`](05-dsa-systems-mastery/01-arrays-and-two-pointers/) — In-place sorted telemetry log compaction & deduplication
 
 ---
 
@@ -72,9 +71,26 @@ main root
 - [ ] **Day 04:** MVC in AI Applications (Tool schemas, SSE streams, orchestrators)
 - [ ] **Day 05:** Microservices and GPU Pools (Heterogeneous node pools, KV-cache rate limits)
 - [ ] **Day 06:** Event-Driven AI Pipelines (Async Kafka/CDC embeddings and backpressure)
-- [ ] **Day 07:** Serverless AI and Cold Starts (Warm GPU pools, weight streaming via Firecracker)
+- [ ] **Day 07:** Serverless AI & Cold Starts (Warm GPU pools, weight streaming via Firecracker)
 - [ ] **Day 08:** Tool Use and Function Calling (Structured JSON schemas, timeout budgets)
 - [ ] **Day 09:** Self-Reflection and Agent Loops (Infinite-loop guardrails, FSM, deterministic halting)
+
+---
+
+## Module 5: DSA and Low-Level Systems Mastery
+
+- [x] [**Pattern 01:** Arrays & Two Pointers (In-place log compaction & deduplication)](05-dsa-systems-mastery/01-arrays-and-two-pointers/)
+- [ ] **Pattern 02:** Two Pointers (Dynamic throughput buffer & container optimization)
+- [ ] **Pattern 03:** Sliding Window (Rate limiting windows & max telemetry metrics)
+- [ ] **Pattern 04:** Fast & Slow Pointers (State transition cycle detection)
+- [ ] **Pattern 05:** Monotonic Stacks & Queues (Sliding window max latency tracking)
+- [ ] **Pattern 06:** Binary Search (Keyset seek & boundary range partition lookups)
+- [ ] **Pattern 07:** Trees & Prefix Tries (API Gateway route prefix matching)
+- [ ] **Pattern 08:** Heaps & Priority Queues (Distributed K-way log merge & Top-K telemetry)
+- [ ] **Pattern 09:** Graphs & Topological Sort (Service boot & Saga rollback dependency DAGs)
+- [ ] **Pattern 10:** DP & State Machines (Token replenishment & transaction state models)
+- [ ] **Pattern 11:** Disjoint Set Union (DSU) (Split-brain & network partition detection)
+- [ ] **Pattern 12:** System Algorithmic Engines (LRU/LFU cache, Consistent Hash ring)
 
 ---
 
@@ -84,4 +100,3 @@ To verify and compile the entire playbook:
 
 ```bash
 mvn clean test
-```
