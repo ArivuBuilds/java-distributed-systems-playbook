@@ -18,5 +18,6 @@
     <modules>
         <module>08-cqrs-projection-engine</module>
         <module>09-transactional-outbox-cdc</module>
+        <module>10-saga-orchestrator</module>
     </modules>
 </project>
