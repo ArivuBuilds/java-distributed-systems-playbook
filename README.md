@@ -1,6 +1,6 @@
 # 💚 Java & Distributed Systems Playbook
 
-An enterprise-grade architecture and code playbook covering low-level Java 21 internals, resilient microservices distributed patterns, and high-scale Infrastructure for AI & LLM systems.
+An enterprise-grade architecture and code playbook covering low-level Java 21 internals, resilient microservices distributed patterns, edge API architecture, and high-scale LLM Infrastructure.
 
 Maintained by: **ArivuBuilds** (`ArivuBuilds`)
 
@@ -8,16 +8,16 @@ Maintained by: **ArivuBuilds** (`ArivuBuilds`)
 
 ## 📚 Repository Architecture & Modules
 
-` main root
-|✀ 01-java-internals-mastery/      # JMM, AQS, lock-free algorithms, virtual threads
+`main root
+|✀ 01-java-internals-mastery-      # JMM, AQS, lock-free algorithms, virtual threads
 |✀ 02-microservices-patterns-series/ # 12-Day Distributed Systems Architecture Series
-|    ✅ 08-cqrs-projection-engine/ # CQRS, event-sourcing, denormalized read-views
-|    ✅ 09-transactional-outbox-cdc/  # Transactional Outbox, Debezium CDC, Kafka
-|    ✅ 10-saga-orchestrator,         # Distributed saga orchestration & LIFO compensations
-|✀ 03-ai-system-design/              # LLM inference gateways, semantic cache, vector db scale
-`
-
----
+|    ✅ 03-cqrs-projection-engine/ # CQRS, event-sourcing, denormalized read-views
+|    ✅ 03-transactional-outbox-cdc/  # Transactional Outbox, Debezium CDC, Kafka
+|    ✅ 10-saga-orchestrator/          # Distributed saga orchestration & LIFO compensations
+|✀ 03-api-architecture-series/        # 12-Day API Architecture & Protocols Series
+|    ‧ Resource Modeling, sRPC, WebSockets, SSE, Rate Limiting, Idempotency
+|✀ 0a-ai-system-design/              # 9-Day LLM Infrastructure, vlLM, Semantic Cache
+` ---
 
 ## 🔄 Module 1: Java Internals Mastery
 - [`01-memory-model` - Java Memory Model (JMM), volatile, and happens-before guarantees](01-java-internals-mastery/01-memory-model/)
@@ -43,23 +43,40 @@ Maintained by: **ArivuBuilds** (`ArivuBuilds`)
 
 ---
 
-## 🤬 Module 3: AI System Design & LLM Infrastructure
+## 🌫 Module 3: The 12-Day API Architecture Series
+
+- [ ] **Day 01:** RESTful Resource Modeling (URi nouns, status semantics, HATEOAS)
+- [ ] **Day 02:** GraphQL &y Query Complexity (Field-level fetching, N+1 query traps)
+- [ ] **Day 03:** gRPC & Protobuf (Binary serialization & HTTP/2 multiplexing)
+- [ ] **Day 04** WebSockets (Stateful full-duplex TCP vs. Redis Pubs/Subscribe)
+- [ ] **Day 05:** Webhooks Reliability (HMAC-SHA256 signatures & decorrelated retries)
+- [ ] **Day 06:** Server-Sent Events (SSE) (Lightweight uni-directional LLM token streaming)
+- [ ] **Day 07:** API Pagination Patterns (OFFSET 100000 scan tax vs. Keyset/Cursor)
+- [ ] **Day 08:** Rate Limiting Algorithms (Token Bucket vs. Sliding Windows via Redis Lua)
+- [ ] **Day 09:** Idempotency Keys (Distributed retries & 24-hour deduplication)
+- [ ] **Day 10:** API Versioning Strategies (URI Path vs. Custom Header vs. Accept)
+- [ ] **Day 11:** OAuth 2.0 & JWT  Security (Stateless bearers vs. JTII blacklists)
+- [ ] **Day 12:** API Gateway & Edge Ingress (Reverse proxy, SSL offloading, BFF)
+
+---
+
+## �+ Module 4: AI System Design & LLM Infrastructure
 
 - [ ] **Day 01:** Monolithic AI Architectures (In-process ONNX Runtime vs. HEAP bloat)
-- [ ] **Day 02:** Client-Server & Model Gateways (vLLM, SGLang, TensorRT-LLM decoupling)
-- [ ] **Day 03:** Layered RAG Architecture (Semantic chunking, Hybrid RRF, Cross-Encoder reranking)
-- [ ] **Day 04:** MVC in AI Applications (Tool schemas, SWE streams, and JSRM orchestration)
-- [ ] **Day 05:** Microservices & GPU Pools (Heterogeneous node pools, KV-cache aware rate limiting)
-- [ ] **Day 06:** Event-Driven AI Pipelines (Async Kafka/CDC embeddings & backpressure)
-- [ ] **Day 07:** Serverless AI & Cold Starts (Warm GPU pools, weight streaming via Firecracker)
-- [ ] **Day 08:** Tool Use & Function Calling (Structured JSON schemas, timeout budgets, error recovery)
+- [ ] **Day 02:** Client-Server & Model Gateways (vLLM, SGLang, TensorRT-LLM desoupling)
+- [ ] **Day 03:** Layered RAG Architecture (Semantic chunking, Hybrid RRF, Cross-Encoder scale)
+- [ ] **Day 04:** MVC in AI Applications (Tool schemas, SWE streams, orchestrators)
+- [ ] **Day 05:** Microservices & GPU Pools (Heterogeneous node pools, KV-cache rate limits)
+- [ ] **Day 06:** Event-Driven AI Pipelines (Async Kafka/CD3 embeddings & backpressure)
+- [ ] **Day 07** Serverless AI & Cold Starts (Warm GPUHpools, weight streaming via Firecracker)
+- [ ] **Day 08:** Tool Use & Function Calling (Structured JSON schemas, timeout budgets)
 - [ ] **Day 09:** Self-Reflection & Agent Loops (Infinite-loop guardrails, FSM, deterministic halting)
 
 ---
 
 ## 🚪 Building and Compiling
 
-To compile the whole multi-module playbook: 
+To verify and compile the entire playbook:
 ```bash
 ./mvnw clean compile test
 ```
