@@ -20,7 +20,7 @@ Maintained by: **ArivuBuilds** (`ArivuBuilds`)
 ---
 
 ## 🔄 Module 1: Java Internals Mastery
-- [`01-memory-model` - Java Memory Model (JMM), volatile, and happens-before guarantees](o1-java-internals-mastery/01-memory-model/)
+- [`01-memory-model` - Java Memory Model (JMM), volatile, and happens-before guarantees](01-java-internals-mastery/01-memory-model/)
 - [`02-locks-and-aqs` - Synchronization primitives and concurrency building blocks](01-java-internals-mastery/02-locks-and-aqs/)
 - [`03-aqs-internals` - AbstractQueuedSynchronizer (AQS) alignment, CAS and wait-queues (hardenedU)](01-java-internals-mastery/03-aqs-internals/)
 
