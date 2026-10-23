@@ -11,20 +11,71 @@ The **Sidecar Pattern** decouples network operations from application logic by c
           |
      (Secure mTLS over Wire on Port 10000)
           v
-+-----------------------------------------------------------+
++---------------------------------------------------------+
 | Kubernetes Pod (Shared Network Namespace / localhost)     |
-|                                                           |
-|   +-------------------+          +--------------------+   |
+|                                                      |
+|   +----------------+          +------------------+   |
 |   |   Envoy Sidecar   | -------> | Application Engine |   |
 |   |  (Data Plane L7)  |  (HTTP)  |  (Order Service)   |   |
 |   |    Port: 10000    |  :8080   |    Port: 8080      |   |
-|   +-------------------+          +--------------------+   |
-|             |                                             |
-+-------------|---------------------------------------------+
+|   +---------------+          +------------------+   |
+|             |                                      |
++-------------|--------------------------------------------+
               v
      Prometheus Metrics (:9901)
+```
 
+---
 
-Core Operational MechanicsLocalhost Network Interception: In Kubernetes, all containers within a Pod share an IPC and network namespace. The application binds strictly to 127.0.0.1:8080.Transparent Wire Encryption (mTLS): The Envoy sidecar listens on port 10000, requiring incoming connections to present valid X.509 client certificates signed by the mesh CA (require_client_certificate: true).Automated L7 Retries: If the local service returns a 5xx error or connection drop, Envoy executes retries with exponential backoff before returning an error upstream.Decoupled Telemetry: The sidecar outputs access logs and Prometheus metrics on port 9901 without requiring language-specific agents.Architecture Trade-offsDimensionLibrary-Heavy Model (Spring Cloud / SDKs)Sidecar Service Mesh (Envoy / Istio)Language AgnosticNo (requires per-language client libraries)Yes (consistent proxy for Java, Go, Python)Certificate RotationHigh complexity (app restart / config reloads)Zero application downtime (control plane hot reload)Network LatencyBaseline (direct socket connection)Adds ~1-2ms per proxy hopResource OverheadLow memory footprintRequires dedicated CPU/Memory per Pod
+## Core Operational Mechanics
 
+1. **Localhost Network Interception**: In Kubernetes, all containers within a Pod share an IOC and network namespace. The application binds strictly to `127.0.0.1:8080`.
+2. **Transparent Wire Encryption (mTLS)**: The Envoy sidecar listens on port `10000`, requiring incoming connections to present valid X.509 client certificates signed by the mesh CA (`require_client_certificate: true`).
+3. **Automated L7 Retries**: If the local service returns a 5xx error or connection drop, Envoy executes retries with exponential backoff before returning an error upstream.
+4. **Decoupled Telemetry**: The sidecar outputs access logs and Prometheus metrics on port `9901` without requiring language-specific agents.
 
+---
+
+## Architecture Trade-offs
+
+| Dimension | Library-Heavy Model (Spring Cloud / SDKs) | Sidecar Service Mesh (Envoy / Istio) |
+| :--- | :--- | :--- |
+| **Language Agnostic** | No (requires per-language client libraries) | Yes (consistent proxy for Java, Go, Python) |
+| **Certificate Rotation** | High complexity (app restart / config reloads) | Zero application downtime (control plane hot reload) |
+| **Network Latency** | Baseline (direct socket connection) | Adds ~1-2ms per proxy hop |
+| **Resource Overhead** | Low memory footprint | Requires dedicated CPU/Memory per Pod |
+
+---
+
+## Local Verification
+
+### 1. Generate Certificates
+```bash
+cd certs
+./generate-certs.sh
+cd ..
+```
+
+### 2. Start the Sidecar & Backend
+```bash
+docker compose up -d
+```
+
+### 3. Verify Mutual TLS Enforcement
+
+Attempting to connect without client certificates returns an SSL handshake failure:
+```bash
+curl -k https://localhost:10000/
+# Output: curl: (35) error:0A000412:SSL routines::ssl/tls alert bad certificate
+```
+
+Connecting with the valid client key and CA certificate succeeds:
+```bash
+curl --cacert certs/ca-cert.pem \
+     --cert certs/client-cert.pem \
+     --key certs/client-key.pem \
+     https://localhost:10000/
+# Output: Handled by App via Envoy Sidecar mTLS
+```
+
+### 4. Inspect Proxy Metric
