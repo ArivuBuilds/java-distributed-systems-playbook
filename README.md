@@ -1,56 +1,65 @@
-# 🚀 Java & Distributed Systems Architecture Playbook
+# 💚 Java & Distributed Systems Playbook
 
-[![Java 21](https://img.shields.io/badge/Java-21-orange.svg)](https://openjdk.org/projects/jdk/21/)
-[![Spring Boot 3](https://img.shields.io/badge/Spring%20Boot-3.x-green.svg)](https://spring.io/projects/spring-boot)
-[![Kafka](https://img.shields.io/badge/Apache%20Kafka-Distributed-black.svg)](https://kafka.apache.org/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+An enterprise-grade architecture and code playbook covering low-level Java 21 internals, resilient microservices distributed patterns, and high-scale Infrastructure for AI & LLM systems.
 
-A production-focused reference repository documenting core Java internals, 12 microservices resilience patterns, and 50 distributed system design trade-offs—curated from 18+ years of enterprise engineering in Life Insurance & FinTech platforms.
+Maintained by: **ArivuBuilds** (`ArivuBuilds`)
 
 ---
 
-## 📌 Repository Roadmap
+## 📚 Repository Architecture & Modules
 
-### 🧵 Module 1: Java Internals & High-Concurrency Mechanics
-- [x] **01-memory-model:** Java Memory Model (`volatile`, StoreLoad barriers, Happens-Before)
-- [x] **02-locks-and-aqs:** `ReentrantLock` vs. `synchronized` & Multi-Condition Queues
-- [ ] **03-aqs-internals:** AbstractQueuedSynchronizer (AQS) state mechanics & CLH queue
-- [ ] **04-virtual-threads:** Virtual Threads (Project Loom) vs. Platform Thread pools: throughput & pinning
-- [ ] **05-jvm-tuning-gc:** Low-latency garbage collectors (G1GC vs. Generational ZGC)
+` main root
+|✀ 01-java-internals-mastery/      # JMM, AQS, lock-free algorithms, virtual threads
+|✀ 02-microservices-patterns-series/ # 12-Day Distributed Systems Architecture Series
+|    ✅ 08-cqrs-projection-engine/ # CQRS, event-sourcing, denormalized read-views
+|    ✅ 09-transactional-outbox-cdc/  # Transactional Outbox, Debezium CDC, Kafka
+|    ✅ 10-saga-orchestrator,         # Distributed saga orchestration & LIFO compensations
+|✀ 03-ai-system-design/              # LLM inference gateways, semantic cache, vector db scale
+`
 
 ---
 
-### 🔄 Module 2: The 12-Day Microservices Architecture Series
-Each pattern includes architectural trade-offs, sequence diagrams, and runnable code:
-- [ ] **Day 01:** API Gateway Pattern (Edge routing, auth offload & ingress rate limiting)
-- [ ] **Day 02:** Service Discovery & Registry (Consul/Eureka vs. Kubernetes CoreDNS)
-- [ ] **Day 03:** Backend for Frontend (BFF) Pattern (Client-tailored contracts)
+## 🔄 Module 1: Java Internals Mastery
+- [`01-memory-model` - Java Memory Model (JMM), volatile, and happens-before guarantees](o1-java-internals-mastery/01-memory-model/)
+- [`02-locks-and-aqs` - Synchronization primitives and concurrency building blocks](01-java-internals-mastery/02-locks-and-aqs/)
+- [`03-aqs-internals` - AbstractQueuedSynchronizer (AQS) alignment, CAS and wait-queues (hardenedU)](01-java-internals-mastery/03-aqs-internals/)
+
+---
+
+## 🔤 Module 2: The 12-Day Microservices Architecture Series
+
+- [ ] **Day 01:** API Gateway Pattern (Ingress routing & SSL termination)
+- [ ] **Day 02:** Service Discovery & Registry (Client vs. Server-side discovery)
+- [ ] **Day 03:** Backend for Frontend (BFF) (Telemetry & response aggregation)
 - [ ] **Day 04:** Circuit Breaker & Fallback (Resilience4j state machines)
 - [ ] **Day 05:** Bulkhead Isolation Pattern (Thread pool vs. Semaphore isolation)
-- [ ] **Day 06:** Retry with Exponential Backoff & Jitter (Eliminating thundering herds)
-- [ ] **Day 07:** Database-per-Service Pattern (Polyglot persistence & decoupling)
-- [x] **Day 08:** CQRS Pattern (Segregating write models from projection stores)
-- [x] **Day 09:** Event-Driven Architecture & Transactional Outbox Pattern (Debezium CDC)
-- [ ] **Day 10:** Saga Pattern (Orchestration vs. Choreography without 2PC)
-- [ ] **Day 11:** Sidecar & Service Mesh Pattern (Envoy infrastructure & mTLS)
-- [ ] **Day 12:** Strangler Fig Pattern (Zero-downtime monolith decomposition)
+- [ ] **Day 06:** Retry with Exponential Backoff (Decorrelated jitter mechanicms)
+- [ ] **Day 07:** Database-per-Service Pattern (Polyglot persistence & data federation)
+- [x] [**Day 08:** CQRS Pattern (Segregating write models from projection stores)](02-microservices-patterns-series/08-cqrs-projection-engine/)
+- [x] [**Day 09:** Event-Driven Architecture & Transactional Outbox Pattern (CDC via Debezium & Kafka)](02-microservices-patterns-series/09-transactional-outbox-cdc/)
+- [x] [**Day 10:** Saga Pattern (Distributed orchestration vs. choreography with backward compensations)](02-microservices-patterns-series/10-saga-orchestrator/)
+- [ ] **Day 11:** Sidecar & Service Mesh (Envoy L7 interception, mTLS & tracing)
+- [ ] **Day 12:** Strangler Fig Pattern (Incremental zero-downtime monolith migration)
 
 ---
 
-### 📐 Module 3: Distributed System Design (50 Core Concepts)
-Structured trade-offs across:
-- **Storage & Caching:** Redis topologies, Cache-Aside vs. Write-Through, cache stampede prevention
-- **Consistency Models:** Linearizable vs. Causal vs. Eventual Consistency
-- **Distributed Locking:** Redlock vs. single-instance Redis CAS vs. ZooKeeper ephemeral nodes
-- **Data Partitioning:** Virtual nodes in Consistent Hashing & partition rebalancing
+## 🤬 Module 3: AI System Design & LLM Infrastructure
+
+- [ ] **Day 01:** Monolithic AI Architectures (In-process ONNX Runtime vs. HEAP bloat)
+- [ ] **Day 02:** Client-Server & Model Gateways (vLLM, SGLang, TensorRT-LLM decoupling)
+- [ ] **Day 03:** Layered RAG Architecture (Semantic chunking, Hybrid RRF, Cross-Encoder reranking)
+- [ ] **Day 04:** MVC in AI Applications (Tool schemas, SWE streams, and JSRM orchestration)
+- [ ] **Day 05:** Microservices & GPU Pools (Heterogeneous node pools, KV-cache aware rate limiting)
+- [ ] **Day 06:** Event-Driven AI Pipelines (Async Kafka/CDC embeddings & backpressure)
+- [ ] **Day 07:** Serverless AI & Cold Starts (Warm GPU pools, weight streaming via Firecracker)
+- [ ] **Day 08:** Tool Use & Function Calling (Structured JSON schemas, timeout budgets, error recovery)
+- [ ] **Day 09:** Self-Reflection & Agent Loops (Infinite-loop guardrails, FSM, deterministic halting)
 
 ---
 
-### ⚙️ How to Build & Run
+## 🚪 Building and Compiling
+
+To compile the whole multi-module playbook: 
 ```bash
-# Clone the repository
-git clone [https://github.com/ArivuBuilds/java-distributed-systems-playbook.git](https://github.com/ArivuBuilds/java-distributed-systems-playbook.git)
-cd java-distributed-systems-playbook
-
-# Run all test suites
-./mvnw clean test
+./mvnw clean compile test
+```
