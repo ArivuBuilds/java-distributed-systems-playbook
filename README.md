@@ -41,7 +41,7 @@ Maintained by: **ArivuBuilds** (`@ArivuBuilds`)
 - [x] [**Day 08:** CQRS Pattern (Segregating write models from projection stores)](02-microservices-patterns-series/08-cqrs-projection-engine/)
 - [x] [**Day 09:** Event-Driven Architecture and Transactional Outbox Pattern (CDC via Debezium and Kafka)](02-microservices-patterns-series/09-transactional-outbox-cdc/)
 - [x] [**Day 10:** Saga Pattern (Distributed orchestration vs. choreography with backward compensations)](02-microservices-patterns-series/10-saga-orchestrator/)
-- [ ] **Day 11:** Sidecar and Service Mesh (Envoy L7 interception, mTLS and tracing)
+- [x] [**Day 11:** Sidecar and Service Mesh (Envoy L7 interception, mTLS, and sidecar deployment)](02-microservices-patterns-series/11-sidecar-and-service-mesh/)
 - [ ] **Day 12:** Strangler Fig Pattern (Incremental zero-downtime monolith migration)
 
 ---

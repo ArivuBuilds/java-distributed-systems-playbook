@@ -1,0 +1,23 @@
+version: "3.8"
+
+services:
+  # Upstream application service (Backend speaking plain HTTP on 8080)
+  app-backend:
+    image: hashicorp/http-echo:0.2.3
+    container_name: app-backend
+    command: ["-listen=:8080", "-text=Handled by App via Envoy Sidecar mTLS"]
+    network_mode: "service:envoy-sidecar"
+    depends_on:
+      - envoy-sidecar
+
+  # Envoy Sidecar proxy terminating mTLS on 10000 and exporting admin metrics on 9901
+  envoy-sidecar:
+    image: envoyproxy/envoy:v1.30.1
+    container_name: envoy-sidecar
+    volumes:
+      - ./envoy/envoy.yaml:/etc/envoy/envoy.yaml:ro
+      - ./certs:/etc/envoy/certs:ro
+    ports:
+      - "10000:10000"  # Inbound secure mTLS ingress
+      - "9901:9901"    # Envoy admin / metrics endpoint
+    command: ["/usr/local/bin/envoy", "-c", "/etc/envoy/envoy.yaml", "--service-cluster", "order-cluster", "--service-node", "order-node-01"]
