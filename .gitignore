@@ -1,2 +1,33 @@
-*.bak
-*.bak
+# Maven build target directories
+**/target/
+target/
+
+# Compiled Java bytecode
+*.class
+
+# Log files and crash dumps
+*.log
+hs_err_pid*
+replay_pid*
+
+# IntelliJ IDEA project files
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# Eclipse workspace metadata
+.project
+.classpath
+.settings/
+.metadata/
+bin/
+
+# VS Code directory
+.vscode/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+desktop.ini
