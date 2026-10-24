@@ -13,6 +13,7 @@ Maintained by: **ArivuBuilds** (`@ArivuBuilds`)
   - [x] [`08-cqrs-projection-engine/`](02-microservices-patterns-series/08-cqrs-projection-engine/) — CQRS, event-sourcing, denormalized read-views
   - [x] [`09-transactional-outbox-cdc/`](02-microservices-patterns-series/09-transactional-outbox-cdc/) — Transactional Outbox, Debezium CDC, Kafka
   - [x] [`10-saga-orchestrator/`](02-microservices-patterns-series/10-saga-orchestrator/) — Distributed saga orchestration and LIFO compensations
+  - [x] [`11-sidecar-and-service-mesh/`](02-microservices-patterns-series/11-sidecar-and-service-mesh/) — Envoy L7 interception, mTLS, and sidecar deployment
 - **[`03-api-architecture-series/`](03-api-architecture-series/)** — 12-Day API Architecture and Protocols Series
   - RESTful Modeling, gRPC, WebSockets, SSE, Rate Limiting, Idempotency
 - **[`04-ai-system-design/`](04-ai-system-design/)** — 9-Day LLM Infrastructure, vLLM, Semantic Cache
@@ -23,9 +24,12 @@ Maintained by: **ArivuBuilds** (`@ArivuBuilds`)
 
 ## Module 1: Java Internals Mastery
 
-- [`01-memory-model` - Java Memory Model (JMM), volatile, and happens-before guarantees](01-java-internals-mastery/01-memory-model/)
-- [`02-locks-and-aqs` - Synchronization primitives and concurrency building blocks](01-java-internals-mastery/02-locks-and-aqs/)
-- [`03-aqs-internals` - AbstractQueuedSynchronizer (AQS) alignment, CAS, and wait-queues](01-java-internals-mastery/03-aqs-internals/)
+- [x] [`01-memory-model` - Java Memory Model (JMM), volatile, and happens-before guarantees](01-java-internals-mastery/01-memory-model/)
+- [x] [`02-locks-and-aqs` - Synchronization primitives and concurrency building blocks](01-java-internals-mastery/02-locks-and-aqs/)
+- [x] [`03-aqs-internals` - AbstractQueuedSynchronizer (AQS) alignment, CAS, and wait-queues](01-java-internals-mastery/03-aqs-internals/)
+- [x] [`04-lock-free-primitives` - Lock-free FIFO queues with VarHandle CAS atomic operations](01-java-internals-mastery/04-lock-free-primitives/)
+- [ ] `05-false-sharing-padding` - L1/L2/L3 cache line alignment, false sharing, and mechanical sympathy
+- [ ] `06-virtual-threads-internals` - Project Loom carrier thread pinning, continuations, and schedulers
 
 ---
 
