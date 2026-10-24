@@ -6,11 +6,11 @@ A deep-dive architectural playbook on low-level Java 21 synchronization primitiv
 
 ## Module Curriculum & Submodules
 
-- [`01-memory-model` — Java Memory Model (JMM)](ox-01-memory-model/)
+- [`01-memory-model` — Java Memory Model (JMM)](01-memory-model/)
   * Volatile semantics, Acquire-Release barriers, reordering prevention, and happens-before graph guarantees.
 - [`02-locks-and-aqs` — Synchronization Primitives](02-locks-and-aqs/)
   * Custom mutexes, spinlocks, and backoff strategies preventing thread starvation.
-- [`03-aqs-internals` — AbstractQueuedSynchronizer (AQS)](ox-03-aqs-internals/)
+- [`03-aqs-internals` — AbstractQueuedSynchronizer (AQS)](03-aqs-internals/)
   * AQS CLH wait-queue node linking, CAS state transitions, exclusive vs. shared modes, and Condition await/signal.
 - [`04-lock-free-primitives` — Lock-Free Algorithms](04-lock-free-primitives/)
   * Michael-Scott non-blocking FIFO queue introducing Java 9+ `VarHandle` CAS atomic operations.
