@@ -1,0 +1,35 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: strangler-routing-proxy
+  cloud:
+    gateway:
+      routes:
+        # Route 1: Target for strangled Orders domain (Modern Order Service)
+        - id: modern-order-service-route
+          uri: http://localhost:8082
+          predicates:
+            - Path=/api/orders/**
+          filters:
+            - AddRequestHeader=X-Routed-By, Strangler-Proxy-Modern
+            - AddResponseHeader=X-Architecture-Tier, Modern-Microservice
+
+        # Route 2: Fallback route for all legacy monolith domains (Customers, Inventory)
+        - id: legacy-monolith-fallback-route
+          uri: http://localhost:8081
+          predicates:
+            - Path=/api/**
+          filters:
+            - AddRequestHeader=X-Routed-By, Strangler-Proxy-Legacy
+            - AddResponseHeader=X-Architecture-Tier, Legacy-Monolith
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,gateway
+  endpoint:
+    gateway:
+      enabled: true

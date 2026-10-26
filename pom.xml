@@ -20,9 +20,12 @@
     </properties>
 
     <modules>
+        <module>01-java-internals-mastery</module>
         <module>02-microservices-patterns-series</module>
+        <module>03-api-architecture-series</module>
         <module>05-dsa-systems-mastery</module>
     </modules>
+
 
     <dependencyManagement>
         <dependencies>
