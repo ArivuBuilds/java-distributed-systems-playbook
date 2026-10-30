@@ -18,8 +18,8 @@ A production reference covering distributed patterns, architectural trade-offs, 
 | **Day 08** | **CQ.RS Pattern** | Separating command writes from read projections | **Completed** |
 |**Day 09** | **Transactional Outbox & CDC** | Dual-write mitigation via PostgreSQL WAL & Debezium | **Completed** |
 |**Day 10** | **Saga Pattern** | Distributed orchestration vs. choreography workflows | **Completed** |
-| **Day 11** | **Sidecar & Service Mesh** | Envoy L7 interception, mTLS & distributed tracing | Upcoming |
-| **Day 12** | **Strangler Fig Pattern** | Zero-downtime monolith migration behind gateways | Upcoming |
+| **Day 11** | **Sidecar & Service Mesh** | Envoy L7 interception, mTLS & distributed tracing | **Completed** |
+| **Day 12** | **Strangler Fig Pattern** | Zero-downtime monolith migration behind gateways | **Completed** |
 
 ---
 
