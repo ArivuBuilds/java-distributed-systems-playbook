@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: graphql-complexity-protection
+  graphql:
+    graphiql:
+      enabled: true
+    schema:
+      printer:
+        enabled: true
+
+server:
+  port: 8081

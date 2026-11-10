@@ -1,0 +1,18 @@
+type Query {
+    books: [Book!]!
+    bookById(id: ID!): Book
+}
+
+type Book {
+    id: ID!
+    title: String!
+    price: Float!
+    author: Author!
+}
+
+type Author {
+    id: ID!
+    name: String!
+    email: String!
+    books: [Book!]!
+}
