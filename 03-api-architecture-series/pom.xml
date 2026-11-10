@@ -19,5 +19,6 @@
         <module>01-rest-resource-modeling</module>
         <module>02-graphql-query-complexity</module>
         <module>03-grpc-protobuf-multiplexing</module>
+        <module>04-websocket-bidirectional-events</module>
     </modules>
 </project>
