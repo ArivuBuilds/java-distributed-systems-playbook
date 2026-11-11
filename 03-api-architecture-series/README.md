@@ -1,53 +1,44 @@
 # 🌐 Module 3: The 12-Day API Architecture Series
 
-A definitive engineering guide to building, securing, and scaling production API infrastructure across REST, GraphQL, gRPC, WebSockets, and SSE in Java 21.
+A definitive engineering guide to building, securing, and scaling production API infrastructure across REST, GraphQL, gRPC, WebSockets, and SSE in **Java 21** and **Spring Boot 3.3.2**.
 
 ---
 
 ## 📒 Series Index & Architectural Syllabus
 
-|i Day | Topic | Architectural Theme / Trade-off | Status |
-| :--: | :-- | :-- | :--: |
-| **Day 01** | **RESTful Resource Modeling** | URI nouns vs. verbs, HTTP status semantics, HATETAS principles | Planned |
-|**Day 02** | **GraphQL &y Query Complexity** | Field-level fetching, N+1 query traps, depth-limiting | Planned |
-|**Day 03** | **gRPC & Protobuf** | Binary serialization & HTTP/2 multiplexing vs. debuggability | Planned |
-| **Day 04** | **WebSockets** | Stateful full-duplex TCP vs. Redis Pubs/Subscribe socket fanout | Planned |
-| **Day 05** | **Webhooks Reliability** | HMAC-SHA256 signature verification & decorrelated retries | Planned |
-| **Day 06** | **Server-Sent Events (SSE)** | Lightweight uni-directional streaming (Virtual Threads / LLM tokens) | Planned |
-|**Day 07** | **API Pagination Patterns** | Offset/Limit (OFFSET 100000 scan tax) vs. Keyset/Cursor seek | Planned |
-|**Day 08** | **Rate Limiting Algorithms** | Token Bucket vs. Sliding Window counters via Redis Lua scripts | Planned |
-|**Day 09** | **Idempotency Keys** | Distributed retries, hash locks, and 24-hour deduplication | Planned |
-|**Day 10** | **API Versioning Strategies** | URI Path (/v1) vs. Custom Header vs. Content Negotiation | Planned |
-| **Day 11** | **OAuth 2.0 & JWT  Security** | Stateless bearer tokens vs. JTII blacklist revocation | Planned |
-|**Day 12** | **API Gateway & Edge Ingress** | Reverse proxy routing, SSL termination, BFF, and token offload | Planned |
+| Day | Module Directory | Topic | Architectural Theme / Trade-off | Status |
+|:---:|---|---|---|:---:|
+| **01** | [`01-rest-resource-modeling`](./01-rest-resource-modeling) | RESTful Resource Modeling | RFC 7807/9457 `ProblemDetail`, URI nouns vs. verbs, HTTP semantics | `Completed` ✅ |
+| **02** | [`02-graphql-query-complexity`](./02-graphql-query-complexity) | GraphQL Query Complexity | DoS mitigation, query depth limiting, `@BatchMapping` N+1 resolution | `Completed` ✅ |
+| **03** | [`03-grpc-protobuf-multiplexing`](./03-grpc-protobuf-multiplexing) | gRPC & Protobuf Multiplexing | Proto3 contracts, HTTP/2 multiplexing, unary & streaming RPCs | `Completed` ✅ |
+| **04** | [`04-websocket-bidirectional-events`](./04-websocket-bidirectional-events) | WebSockets STOMP Messaging | Full-duplex TCP streams, in-memory broker, session interceptors | `Completed` ✅ |
+| **05** | [`05-webhooks-hmac-verification`](./05-webhooks-hmac-verification) | Webhooks HMAC Security | HMAC-SHA256 signature verification, timing attack & replay defense | `Completed` ✅ |
+| **06** | [`06-sse-unidirectional-streaming`](./06-sse-unidirectional-streaming) | Server-Sent Events (SSE) | Unidirectional reactive streaming, backpressure buffer, `Last-Event-ID` | `Completed` ✅ |
+| **07** | `07-api-pagination-cursor-seek` | Keyset & Cursor Pagination | $O(1)$ cursor seeking vs. high-offset degradation (`LIMIT/OFFSET`) | `Planned` ⏳ |
+| **08** | `08-rate-limiting-redis-token-bucket` | Distributed Rate Limiting | Token Bucket vs. Sliding Window counters via Redis Lua scripts | `Planned` ⏳ |
+| **09** | `09-idempotency-keys-deduplication` | Idempotency Keys | Distributed mutation locks, payload hashing, 24-hour deduplication | `Planned` ⏳ |
+| **10** | `10-api-versioning-content-negotiation` | API Versioning Strategies | URI path vs. custom header vs. vendor MIME content negotiation | `Planned` ⏳ |
+| **11** | `11-oauth2-jwt-revocation-blacklist` | OAuth 2.0 & JWT Security | Stateless RS256 validation vs. fast-path Redis token blacklist | `Planned` ⏳ |
+| **12** | `12-api-gateway-edge-ingress` | API Gateway & Edge Ingress | Reverse proxy routing, W3C TraceContext propagation, circuit breakers | `Planned` ⏳ |
 
 ---
 
 ## 🌫 Architectural Topology
 
-``mermaid
+```mermaid
 flowchart TD
-    Clients["Web / Mobile / External Clients"] -->|HTTP/2 or HTTP/3| Gateway["APITGateway & Ingress (Day 12)"]
+    Clients["Web / Mobile / External Clients"] -->|HTTP/1.1, HTTP/2, WS| Gateway["API Gateway & Ingress (Day 12)"]
 
-    Gateway -->|"Rate Limit (Token Bucket)| RateLimit["pRedis Rate Limiter (Day 08)"]
-    Gateway -->|
-Verify JWT Jcksh| Auth["qOAuth2 / JWT (Day 11)"]
+    Gateway -->|"Rate Limit Check (Lua)"| RateLimit["Redis Token Bucket (Day 08)"]
+    Gateway -->|"Verify JWT & Blacklist"| Auth["OAuth2 / JWT Revocation (Day 11)"]
 
-    subgraph Protocols ["Service Communication Protocols"]
-        REST["RESTful Interfaces (Day 01)"]
-        GQL["GraphQL Engine (Day 02)"]
-        GRPC["gRPC & Protobuf (Day 03)"]
-        WS["WebSockets (Day 04)"]
-        SSE["SSI Streaming (Day 06)"]
-    end
+    Gateway -->|"v1/v2 Routing & Negotiation"| Versioning["Versioning Layer (Day 10)"]
 
-    Gateway --> REST
-    Gateway --> GQL
-    Gateway --> GRPC
-    Gateway --> WS
-    Gateway --> SSE
+    Versioning -->|"Idempotency-Key Lock"| Idempotency["Idempotency Deduplicator (Day 09)"]
+    Idempotency -->|"Sync REST / Cursor Page"| RestSvc["REST & Cursor Pagination (Days 01, 07)"]
+    Idempotency -->|"Batch Query / Graph"| GraphQLSvc["GraphQL Complexity Engine (Day 02)"]
 
-    style Gateway fill:#e1f5fe,stroke:#0288d1,stroke-width:2px
-    style RateLimit fill:#ffebee,stroke:#c62828,stroke-width:2px
-    style Auth fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px
-```
+    Gateway -->|"Binary HTTP/2 Framing"| GrpcSvc["gRPC Protobuf Services (Day 03)"]
+    Gateway -->|"TCP Full-Duplex"| WsBroker["WebSocket STOMP Broker (Day 04)"]
+    Gateway -->|"text/event-stream"| SseStream["SSE Reactive Telemetry (Day 06)"]
+    Clients -->|"Webhook POST Ingress"| WebhookIngress["HMAC-SHA256 Signature Verifier (Day 05)"]
