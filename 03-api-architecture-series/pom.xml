@@ -22,5 +22,7 @@
         <module>04-websocket-bidirectional-events</module>
         <module>05-webhooks-hmac-verification</module>
         <module>06-sse-unidirectional-streaming</module>
+        <module>07-api-pagination-cursor-seek</module>
+        <module>08-rate-limiting-redis-token-bucket</module>
     </modules>
 </project>
