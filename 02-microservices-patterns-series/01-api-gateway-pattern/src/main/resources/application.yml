@@ -1,0 +1,15 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway-pattern
+  cloud:
+    gateway:
+      x-forwarded:
+        port-enabled: false
+        proto-enabled: false
+
+services:
+  orders-uri: http://localhost:9101
+  inventory-uri: http://localhost:9102

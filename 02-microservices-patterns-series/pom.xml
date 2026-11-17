@@ -18,6 +18,7 @@
     <description>Enterprise patterns: Strangler Fig, API Gateway Routing, Service Extraction, and Dual-Write CDC</description>
 
     <modules>
+        <module>01-api-gateway-pattern</module>
         <module>02-strangler-pattern/01-legacy-monolith-service</module>
         <module>02-strangler-pattern/02-strangler-routing-proxy</module>
         <module>02-strangler-pattern/03-modern-order-service</module>
