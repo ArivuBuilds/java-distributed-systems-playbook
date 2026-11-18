@@ -22,8 +22,11 @@
         <module>04-websocket-bidirectional-events</module>
         <module>05-webhooks-hmac-verification</module>
         <module>06-sse-unidirectional-streaming</module>
-        <module>07-api-pagination-cursor-seek</module>  
+        <module>07-api-pagination-cursor-seek</module>
         <module>08-rate-limiting-redis-token-bucket</module>
-        <module>09-idempotency-keys-deduplication</module>      
+        <module>09-idempotency-keys-deduplication</module>
+        <module>10-api-versioning-content-negotiation</module>
+        <!--<module>11-oauth2-jwt-revocation-blacklist</module>
+        <module>12-api-gateway-edge-ingress</module>-->
     </modules>
 </project>
