@@ -11,7 +11,7 @@ A production reference covering distributed patterns, architectural trade-offs, 
 | **01** | **API Gateway Pattern** | Ingress routing, SSL termination, and token offload | `Completed` ✅ |
 | **02** | **Service Discovery & Registry** | Client-side vs. server-side discovery mechanics | `Completed` ✅ |
 | **03** | **Backend for Frontend (BFF)** | Client-tailored response contracts & aggregation | `Completed` ✅ |
-| **04** | **Circuit Breaker & Fallback** | Resilience4j state transitions & graceful degradation | Backfill Scheduled ⏳ |
+| **04** | **Circuit Breaker & Fallback** | Resilience4j state transitions & graceful degradation | `Completed` ✅ |
 | **05** | **Bulkhead Isolation Pattern** | Thread pool vs. Semaphore thread isolation | Backfill Scheduled ⏳ |
 | **06** | **Retry with Exponential Backoff** | Decorrelated jitter to eliminate thundering herds | Backfill Scheduled ⏳ |
 | **07** | **Database-per-Service Pattern** | Polyglot persistence, bounded contexts & join elimination | Backfill Scheduled ⏳ |

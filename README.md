@@ -10,7 +10,7 @@ Maintained by: **Arivumani A** (`ArivuBuilds`)
 
 - **[`01-java-internals-mastery/`](01-java-internals-mastery/)** — JMM, AQS, lock-free algorithms, virtual threads
 - **[`02-microservices-patterns-series/`](02-microservices-patterns-series/)** — 12-Day Distributed Systems Architecture Series
-  - [x] [`08-cqrs-projection-engine/`](02-microservices-patterns-series/08-cqrs-projection-engine/) —��$ CQRS, event-sourcing, denormalized read-views
+  - [x] [`08-cqrs-projection-engine/`](02-microservices-patterns-series/08-cqrs-projection-engine/) —��$ CQRS, event-sourcing, denormalized read-views
   - [x] [`09-transactional-outbox-cdc/`](02-microservices-patterns-series/09-transactional-outbox-cdc/) — Transactional Outbox, Debezium CDC, Kafka
   - [x] [`10-saga-orchestrator/`](02-microservices-patterns-series/10-saga-orchestrator/) — Distributed saga orchestration and LIFO compensations
   - [x] [`11-sidecar-and-service-mesh/`](02-microservices-patterns-series/11-sidecar-and-service-mesh/) — Envoy L7 interception, mTLS, and sidecar deployment
@@ -35,10 +35,10 @@ Maintained by: **Arivumani A** (`ArivuBuilds`)
 
 ## Module 2: The 12-Day Microservices Architecture Series
 
-- [ ] **Day 01:** API Gateway Pattern (Ingress routing and SSL termination)
-- [ ] **Day 02:** Service Discovery and Registry (Client vs. Server-side discovery)
-- [ ] **Day 03:** Backend for Frontend (BFF) (Telemetry and response aggregation)
-- [ ] **Day 04:** Circuit Breaker and Fallback (Resilience4j state machines)
+- [x] [**Day 01:** API Gateway Pattern (Ingress routing and SSL termination)](02-microservices-patterns-series/01-api-gateway-pattern/)
+- [x] [**Day 02:** Service Discovery and Registry (Client vs. Server-side discovery)](02-microservices-patterns-series/02-strangler-pattern/)
+- [x] [**Day 03:** Backend for Frontend (BFF) (Telemetry and response aggregation)](02-microservices-patterns-series/03-backend-for-frontend-bff/)
+- [x] [**Day 04:** Circuit Breaker and Fallback (Resilience4j state machines)](02-microservices-patterns-series/04-circuit-breaker-fallback/)
 - [ ] **Day 05:** Bulkhead Isolation Pattern (Thread pool vs. Semaphore isolation)
 - [ ] **Day 06:** Retry with Exponential Backoff (Decorrelated jitter mechanisms)
 - [ ] **Day 07:** Database-per-Service Pattern (Polyglot persistence and data federation)
@@ -46,7 +46,7 @@ Maintained by: **Arivumani A** (`ArivuBuilds`)
 - [x] [**Day 09:** Event-Driven Architecture and Transactional Outbox Pattern (CDC via Debezium and Kafka)](02-microservices-patterns-series/09-transactional-outbox-cdc/)
 - [x] [**Day 10:** Saga Pattern (Distributed orchestration vs. choreography with backward compensations)](02-microservices-patterns-series/10-saga-orchestrator/)
 - [x] [**Day 11:** Sidecar and Service Mesh (Envoy L7 interception, mTLS, and sidecar deployment)](02-microservices-patterns-series/11-sidecar-and-service-mesh/)
-- [ ] [**Day 12:** Strangler Fig Pattern (Incremental zero-downtime monolith migration)](02-microservices-patterns-series/12-strangler-fig/)
+- [x] [**Day 12:** Strangler Fig Pattern (Incremental zero-downtime monolith migration)](02-microservices-patterns-series/12-strangler-fig/)
 
 ---
 
