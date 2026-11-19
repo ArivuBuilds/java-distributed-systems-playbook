@@ -13,7 +13,7 @@ A production reference covering distributed patterns, architectural trade-offs, 
 | **03** | **Backend for Frontend (BFF)** | Client-tailored response contracts & aggregation | `Completed` ✅ |
 | **04** | **Circuit Breaker & Fallback** | Resilience4j state transitions & graceful degradation | `Completed` ✅ |
 | **05** | **Bulkhead Isolation Pattern** | Thread pool vs. Semaphore thread isolation | `Completed` ✅ |
-| **06** | **Retry with Exponential Backoff** | Decorrelated jitter to eliminate thundering herds | Backfill Scheduled ⏳ |
+| **06** | **Retry with Exponential Backoff** | Decorrelated jitter to eliminate thundering herds  | `Completed` ✅ |
 | **07** | **Database-per-Service Pattern** | Polyglot persistence, bounded contexts & join elimination | Backfill Scheduled ⏳ |
 | **08** | **CQ.RS Pattern** | Separating command writes from read projections | `Completed` ✅ |
 | **09** | **Transactional Outbox & CDC** | Dual-write mitigation via PostgreSQL WAL & Debezium | `Completed` ✅ |
