@@ -52,17 +52,17 @@ Maintained by: **Arivumani A** (`ArivuBuilds`)
 
 ## Module 3: The 12-Day API Architecture Series
 
-- [ ] **Day 01:** RESTful Resource Modeling (URI nouns, status semantics, HATEOAS)
-- [ ] **Day 02:** GraphQL and Query Complexity (Field-level fetching, N+1 query traps)
-- [ ] **Day 03:** gRPC and Protobuf (Binary serialization and HTTP/2 multiplexing)
-- [ ] **Day 04:** WebSockets (Stateful full-duplex TCP vs. Redis Pub/Sub fanout)
-- [ ] **Day 05:** Webhooks Reliability (HMAC-SHA256 signatures and decorrelated retries)
-- [ ] **Day 06:** Server-Sent Events (SSE) (Lightweight uni-directional LLM tOken streaming)
-- [ ] **Day 07:** API Pagination Patterns (OFFSET 100000 scan tax vs. Keyset/Cursor)
-- [ ] **Day 08:** Rate Limiting Algorithms (Token Bucket vs. Sliding Windows via Redis Lua)
-- [ ] **Day 09:** Idempotency Keys (Distributed retries and 24-hour deduplication)
-- [ ] **Day 10:** API Versioning Strategies (URI Path vs. Custom Header vs. Accept header)
-- [ ] **Day 11:** OAuth 2.0 and JWT Security (Stateless bearer tokens vs. JTI revocation blacklists)
+- [x] [**Day 01:** RESTful Resource Modeling (URI nouns, status semantics, HATEOAS)](03-api-architecture-series/01-rest-resource-modeling/)
+- [x] [**Day 02:** GraphQL and Query Complexity (Field-level fetching, N+1 query traps)](03-api-architecture-series/02-graphql-query-complexity/)
+- [x] [**Day 03:** gRPC and Protobuf (Binary serialization and HTTP/2 multiplexing)](03-api-architecture-series/03-grpc-protobuf-multiplexing/)
+- [x] [**Day 04:** WebSockets (Stateful full-duplex TCP vs. Redis Pub/Sub fanout)](03-api-architecture-series/04-websocket-bidirectional-events/)
+- [x] [**Day 05:** Webhooks Reliability (HMAC-SHA256 signatures and decorrelated retries)](03-api-architecture-series/05-webhooks-hmac-verification/)
+- [x] [**Day 06:** Server-Sent Events (SSE) (Lightweight uni-directional LLM tOken streaming)](03-api-architecture-series/06-sse-unidirectional-streaming/)
+- [x] [**Day 07:** API Pagination Patterns (OFFSET 100000 scan tax vs. Keyset/Cursor)](03-api-architecture-series/07-api-pagination-cursor-seek/)
+- [x] [**Day 08:** Rate Limiting Algorithms (Token Bucket vs. Sliding Windows via Redis Lua)](03-api-architecture-series/08-rate-limiting-redis-token-bucket/)
+- [x] [**Day 09:** Idempotency Keys (Distributed retries and 24-hour deduplication)](03-api-architecture-series/09-idempotency-keys-deduplication/)
+- [x] [**Day 10:** API Versioning Strategies (URI Path vs. Custom Header vs. Accept header)](03-api-architecture-series/10-api-versioning-content-negotiation/)
+- [x] [**Day 11:** OAuth 2.0 and JWT Security (Stateless bearer tokens vs. JTI revocation blacklists)](03-api-architecture-series/11-oauth2-jwt-revocation-blacklistn/)
 - [ ] **Day 12:** API Gateway and Edge Ingress (Reverse proxy, SSL offloading, BFF)
 
 ---

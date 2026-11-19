@@ -1,0 +1,24 @@
+server:
+  port: 8085
+
+spring:
+  application:
+    name: bulkhead-isolation-pattern
+
+downstream:
+  inventory-uri: http://localhost:9401
+  analytics-uri: http://localhost:9402
+
+resilience4j:
+  bulkhead:
+    instances:
+      inventorySemaphoreBulkhead:
+        maxConcurrentCalls: 2
+        maxWaitDuration: 0ms
+  thread-pool-bulkhead:
+    instances:
+      analyticsPoolBulkhead:
+        coreThreadPoolSize: 2
+        maxThreadPoolSize: 2
+        queueCapacity: 1
+        keepAliveDuration: 20ms
