@@ -15,10 +15,10 @@ A definitive engineering guide to building, securing, and scaling production API
 | **05** | [`05-webhooks-hmac-verification`](./05-webhooks-hmac-verification) | Webhooks HMAC Security | HMAC-SHA256 signature verification, timing attack & replay defense | `Completed` ✅ |
 | **06** | [`06-sse-unidirectional-streaming`](./06-sse-unidirectional-streaming) | Server-Sent Events (SSE) | Unidirectional reactive streaming, backpressure buffer, `Last-Event-ID` | `Completed` ✅ |
 | **07** | [`07-api-pagination-cursor-seek`](./07-api-pagination-cursor-seek) | Keyset & Cursor Pagination | $O(1)$ cursor seeking vs. high-offset degradation (`LIMIT/OFFSET`) | `Completed` ✅ |
-| **08** | `08-rate-limiting-redis-token-bucket` | Distributed Rate Limiting | Token Bucket vs. Sliding Window counters via Redis Lua scripts | `Planned` ⏳ |
-| **09** | `09-idempotency-keys-deduplication` | Idempotency Keys | Distributed mutation locks, payload hashing, 24-hour deduplication | `Planned` ⏳ |
-| **10** | `10-api-versioning-content-negotiation` | API Versioning Strategies | URI path vs. custom header vs. vendor MIME content negotiation | `Planned` ⏳ |
-| **11** | `11-oauth2-jwt-revocation-blacklist` | OAuth 2.0 & JWT Security | Stateless RS256 validation vs. fast-path Redis token blacklist | `Planned` ⏳ |
+| **08** | [`08-rate-limiting-redis-token-bucket`](./08-rate-limiting-redis-token-bucket) | Distributed Rate Limiting | Token Bucket vs. Sliding Window counters via Redis Lua scripts | `Completed` ✅ |
+| **09** | [`09-idempotency-keys-deduplication`](./09-idempotency-keys-deduplication) | Idempotency Keys | Distributed mutation locks, payload hashing, 24-hour deduplication | `Completed` ✅ |
+| **10** | [`10-api-versioning-content-negotiation`](./10-api-versioning-content-negotiation) | API Versioning Strategies | URI path vs. custom header vs. vendor MIME content negotiation | `Completed` ✅ |
+| **11** | [`11-oauth2-jwt-revocation-blacklist`](./11-oauth2-jwt-revocation-blacklist) | OAuth 2.0 & JWT Security | Stateless RS256 validation vs. fast-path Redis token blacklist | `Completed` ✅ |
 | **12** | `12-api-gateway-edge-ingress` | API Gateway & Edge Ingress | Reverse proxy routing, W3C TraceContext propagation, circuit breakers | `Planned` ⏳ |
 
 ---
