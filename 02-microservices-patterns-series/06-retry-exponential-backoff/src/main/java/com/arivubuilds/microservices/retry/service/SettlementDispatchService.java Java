@@ -1,0 +1,73 @@
+package com.arivubuilds.microservices.retry.service;
+
+import com.arivubuilds.microservices.retry.backoff.DecorrelatedJitterBackoff;
+import com.arivubuilds.microservices.retry.client.DownstreamSettlementClient;
+import com.arivubuilds.microservices.retry.config.DecorrelatedRetryConfig;
+import com.arivubuilds.microservices.retry.dto.SettlementDispatchResponse;
+import io.github.resilience4j.retry.Retry;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
+
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Supplier;
+
+@Service
+public class SettlementDispatchService {
+
+    private final DownstreamSettlementClient settlementClient;
+    private final Retry settlementRetry;
+    private final DecorrelatedJitterBackoff backoff;
+
+    public SettlementDispatchService(DownstreamSettlementClient settlementClient,
+                                     Retry settlementRetry,
+                                     DecorrelatedJitterBackoff backoff) {
+        this.settlementClient = settlementClient;
+        this.settlementRetry = settlementRetry;
+        this.backoff = backoff;
+    }
+
+    public SettlementDispatchResponse dispatchWithDecorrelatedRetry(String transactionId) {
+        DecorrelatedRetryConfig.drainRecordedDelays();
+        backoff.resetThreadState();
+
+        AtomicInteger attemptCounter = new AtomicInteger(0);
+
+        Supplier<String> decoratedCall = Retry.decorateSupplier(settlementRetry, () -> {
+            attemptCounter.incrementAndGet();
+            return settlementClient.submitSettlement(transactionId);
+        });
+
+        try {
+            String upstreamRef = decoratedCall.get();
+            List<Long> delays = DecorrelatedRetryConfig.drainRecordedDelays();
+            return new SettlementDispatchResponse(
+                    transactionId,
+                    "SETTLED",
+                    attemptCounter.get(),
+                    delays,
+                    upstreamRef
+            );
+        } catch (HttpClientErrorException nonRetryable) {
+            List<Long> delays = DecorrelatedRetryConfig.drainRecordedDelays();
+            return new SettlementDispatchResponse(
+                    transactionId,
+                    "NON_RETRYABLE_CLIENT_ERROR_" + nonRetryable.getStatusCode().value(),
+                    attemptCounter.get(),
+                    delays,
+                    "ABORTED_FAST"
+            );
+        } catch (Exception exhausted) {
+            List<Long> delays = DecorrelatedRetryConfig.drainRecordedDelays();
+            return new SettlementDispatchResponse(
+                    transactionId,
+                    "EXHAUSTED_RETRIES_QUEUED_TO_DLQ",
+                    attemptCounter.get(),
+                    delays,
+                    "DLQ_FALLBACK"
+            );
+        } finally {
+            backoff.resetThreadState();
+        }
+    }
+}

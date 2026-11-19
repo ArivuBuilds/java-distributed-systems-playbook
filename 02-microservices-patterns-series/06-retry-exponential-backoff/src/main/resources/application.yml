@@ -1,0 +1,15 @@
+server:
+  port: 8086
+
+spring:
+  application:
+    name: retry-exponential-backoff
+
+downstream:
+  settlement-uri: http://localhost:9501
+
+retry:
+  decorrelated:
+    max-attempts: 4
+    base-delay-ms: 40
+    max-cap-ms: 600
