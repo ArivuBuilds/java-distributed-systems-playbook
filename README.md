@@ -1,75 +1,70 @@
 # Java and Distributed Systems Playbook
 
-An enterprise-grade architecture and code playbook covering low-level Java 21 internals, resilient microservices distributed patterns, edge API architecture, high-scale LLM Infrastructure, and systems-focused DSA.
+An enterprise-grade architecture and code playbook covering low-level Java 21 internals, SOLID OO design, resilient microservices distributed patterns, edge API architecture, high-scale LLM infrastructure, and systems-focused DSA.
 
-Maintained by: **Arivumani A** (`ArivuBuilds`)
+Maintained by: **Arivumani A** ([`@ArivuBuilds`](https://x.com/ArivuBuilds) | [LinkedIn](https://www.linkedin.com/in/arivubuilds/))
 
 ---
 
 ## Repository Architecture and Modules
 
-- **[`01-java-internals-mastery/`](01-java-internals-mastery/)** — JMM, AQS, lock-free algorithms, virtual threads
-- **[`02-microservices-patterns-series/`](02-microservices-patterns-series/)** — 12-Day Distributed Systems Architecture Series
-  - [x] [`08-cqrs-projection-engine/`](02-microservices-patterns-series/08-cqrs-projection-engine/) —��$ CQRS, event-sourcing, denormalized read-views
-  - [x] [`09-transactional-outbox-cdc/`](02-microservices-patterns-series/09-transactional-outbox-cdc/) — Transactional Outbox, Debezium CDC, Kafka
-  - [x] [`10-saga-orchestrator/`](02-microservices-patterns-series/10-saga-orchestrator/) — Distributed saga orchestration and LIFO compensations
-  - [x] [`11-sidecar-and-service-mesh/`](02-microservices-patterns-series/11-sidecar-and-service-mesh/) — Envoy L7 interception, mTLS, and sidecar deployment
-- **[`03-api-architecture-series/`](03-api-architecture-series/)** — 12-Day API Architecture and Protocols Series
-  - RESTful Modeling, gRPC, WebSockets, SSE, Rate Limiting, Idempotency
-- **[`04-ai-system-design/`](04-ai-system-design/)** — 9-Day LLM Infrastructure, vLLM, Semantic Cache
-- **[`05-dsa-systems-mastery/`](05-dsa-systems-mastery/)** — 12-Pattern Systems DSA, mechanical sympathy, zero-allocation engines
-  - [x] [`01-arrays-and-two-pointers/`](05-dsa-systems-mastery/01-arrays-and-two-pointers/) — In-place sorted telemetry log compaction & deduplication
+- **[`01-java-internals-mastery/`](01-java-internals-mastery/)** — JMM, AQS, lock-free algorithms, cache-line padding, Project Loom virtual threads, and 7-day SOLID mastery
+- **[`02-microservices-patterns-series/`](02-microservices-patterns-series/)** — 12-Day Distributed Systems Architecture Series (Gateway, Discovery, Resilience4j, CQRS, Outbox CDC, Saga, Service Mesh, Strangler Fig)
+- **[`03-api-architecture-series/`](03-api-architecture-series/)** — 12-Day API Architecture and Protocols Series (REST, GraphQL, gRPC, WebSockets, Webhooks, SSE, Cursor Pagination, Redis Rate Limiting, Idempotency, JWT)
+- **[`04-ai-system-design/`](04-ai-system-design/)** — 9-Day LLM Infrastructure, vLLM, Layered RAG, and Deterministic Agent Loops
+- **[`05-dsa-systems-mastery/`](05-dsa-systems-mastery/)** — 12-Pattern Systems DSA, mechanical sympathy, and zero-allocation engines
 
 ---
 
-## Module 1: Java Internals Mastery
+## Module 1: Java Internals & OO Design Mastery (7/7 Completed)
 
-- [x] [`01-memory-model` - Java Memory Model (JMM), volatile, and happens-before guarantees](01-java-internals-mastery/01-memory-model/)
-- [x] [`02-locks-and-aqs` - Synchronization primitives and concurrency building blocks](01-java-internals-mastery/02-locks-and-aqs/)
-- [x] [`03-aqs-internals` - AbstractQueuedSynchronizer (AQS) alignment, CAS, and wait-queues](01-java-internals-mastery/03-aqs-internals/)
-- [x] [`04-lock-free-primitives` - Lock-free FIFO queues with VarHandle CAS atomic operations](01-java-internals-mastery/04-lock-free-primitives/)
-- [x] [`05-false-sharing-paddingc - L1/L2/L3 cache line alignment, false sharing, and mechanical sympathy](01-java-internals-mastery/05-false-sharing-padding/)
-- [x] [`06-virtual-threads-internals` - Project Loom carrier thread pinning, continuations, and schedulers](01-java-internals-mastery/06-virtual-threads-internals/)
+- [x] [`01-memory-model`](01-java-internals-mastery/01-memory-model/) — Java Memory Model (JMM), `volatile`, and happens-before guarantees
+- [x] [`02-locks-and-aqs`](01-java-internals-mastery/02-locks-and-aqs/) — `ReentrantLock`, dual `Condition` queues, and concurrency building blocks
+- [x] [`03-aqs-internals`](01-java-internals-mastery/03-aqs-internals/) — AbstractQueuedSynchronizer (AQS) state alignment, CAS loops, and FIFO wait-queues
+- [x] [`04-lock-free-primitives`](01-java-internals-mastery/04-lock-free-primitives/) — Lock-free FIFO queues with Java 9+ `VarHandle` CAS atomic operations
+- [x] [`05-false-sharing-padding`](01-java-internals-mastery/05-false-sharing-padding/) — L1/L2/L3 64-byte cache-line alignment, `@Contended`, and mechanical sympathy
+- [x] [`06-virtual-threads-internals`](01-java-internals-mastery/06-virtual-threads-internals/) — Project Loom carrier thread unmounting, monitor pinning diagnostics, and schedulers
+- [x] [`07-solid-design-principles`](01-java-internals-mastery/07-solid-design-principles/) — 7-Day Enterprise SOLID Masterclass (`p01_overview` through `p07_capstone`) with Spring Boot dynamic strategy registries and hexagonal ports
 
 ---
 
-## Module 2: The 12-Day Microservices Architecture Series
+## Module 2: The 12-Day Microservices Architecture Series (12/12 Completed)
 
 - [x] [**Day 01:** API Gateway Pattern (Ingress routing and SSL termination)](02-microservices-patterns-series/01-api-gateway-pattern/)
-- [x] [**Day 02:** Service Discovery and Registry (Client vs. Server-side discovery)](02-microservices-patterns-series/02-strangler-pattern/)
+- [x] [**Day 02:** Service Discovery and Registry (Client vs. Server-side discovery)](02-microservices-patterns-series/02-service-discovery-registry/)
 - [x] [**Day 03:** Backend for Frontend (BFF) (Telemetry and response aggregation)](02-microservices-patterns-series/03-backend-for-frontend-bff/)
 - [x] [**Day 04:** Circuit Breaker and Fallback (Resilience4j state machines)](02-microservices-patterns-series/04-circuit-breaker-fallback/)
 - [x] [**Day 05:** Bulkhead Isolation Pattern (Thread pool vs. Semaphore isolation)](02-microservices-patterns-series/05-bulkhead-isolation-pattern/)
 - [x] [**Day 06:** Retry with Exponential Backoff (Decorrelated jitter mechanisms)](02-microservices-patterns-series/06-retry-exponential-backoff/)
 - [x] [**Day 07:** Database-per-Service Pattern (Polyglot persistence and data federation)](02-microservices-patterns-series/07-database-per-service-pattern/)
-- [x] [**Day 08:** CQQR Pattern (Segregating write models from projection stores)](02-microservices-patterns-series/08-cqrs-projection-engine/)
+- [x] [**Day 08:** CQRS Pattern (Segregating write models from projection stores)](02-microservices-patterns-series/08-cqrs-projection-engine/)
 - [x] [**Day 09:** Event-Driven Architecture and Transactional Outbox Pattern (CDC via Debezium and Kafka)](02-microservices-patterns-series/09-transactional-outbox-cdc/)
-- [x] [**Day 10:** Saga Pattern (Distributed orchestration vs. choreography with backward compensations)](02-microservices-patterns-series/10-saga-orchestrator/)
+- [x] [**Day 10:** Saga Pattern (Distributed orchestration vs. choreography with LIFO compensations)](02-microservices-patterns-series/10-saga-orchestrator/)
 - [x] [**Day 11:** Sidecar and Service Mesh (Envoy L7 interception, mTLS, and sidecar deployment)](02-microservices-patterns-series/11-sidecar-and-service-mesh/)
 - [x] [**Day 12:** Strangler Fig Pattern (Incremental zero-downtime monolith migration)](02-microservices-patterns-series/12-strangler-fig/)
 
 ---
 
-## Module 3: The 12-Day API Architecture Series
+## Module 3: The 12-Day API Architecture Series (12/12 Completed)
 
 - [x] [**Day 01:** RESTful Resource Modeling (URI nouns, status semantics, HATEOAS)](03-api-architecture-series/01-rest-resource-modeling/)
 - [x] [**Day 02:** GraphQL and Query Complexity (Field-level fetching, N+1 query traps)](03-api-architecture-series/02-graphql-query-complexity/)
 - [x] [**Day 03:** gRPC and Protobuf (Binary serialization and HTTP/2 multiplexing)](03-api-architecture-series/03-grpc-protobuf-multiplexing/)
 - [x] [**Day 04:** WebSockets (Stateful full-duplex TCP vs. Redis Pub/Sub fanout)](03-api-architecture-series/04-websocket-bidirectional-events/)
 - [x] [**Day 05:** Webhooks Reliability (HMAC-SHA256 signatures and decorrelated retries)](03-api-architecture-series/05-webhooks-hmac-verification/)
-- [x] [**Day 06:** Server-Sent Events (SSE) (Lightweight uni-directional LLM tOken streaming)](03-api-architecture-series/06-sse-unidirectional-streaming/)
+- [x] [**Day 06:** Server-Sent Events (SSE) (Lightweight uni-directional LLM token streaming)](03-api-architecture-series/06-sse-unidirectional-streaming/)
 - [x] [**Day 07:** API Pagination Patterns (OFFSET 100000 scan tax vs. Keyset/Cursor)](03-api-architecture-series/07-api-pagination-cursor-seek/)
 - [x] [**Day 08:** Rate Limiting Algorithms (Token Bucket vs. Sliding Windows via Redis Lua)](03-api-architecture-series/08-rate-limiting-redis-token-bucket/)
 - [x] [**Day 09:** Idempotency Keys (Distributed retries and 24-hour deduplication)](03-api-architecture-series/09-idempotency-keys-deduplication/)
 - [x] [**Day 10:** API Versioning Strategies (URI Path vs. Custom Header vs. Accept header)](03-api-architecture-series/10-api-versioning-content-negotiation/)
-- [x] [**Day 11:** OAuth 2.0 and JWT Security (Stateless bearer tokens vs. JTI revocation blacklists)](03-api-architecture-series/11-oauth2-jwt-revocation-blacklistn/)
+- [x] [**Day 11:** OAuth 2.0 and JWT Security (Stateless bearer tokens vs. JTI revocation blacklists)](03-api-architecture-series/11-oauth2-jwt-revocation-blacklist/)
 - [x] [**Day 12:** API Gateway and Edge Ingress (Reverse proxy, SSL offloading, BFF)](03-api-architecture-series/12-api-gateway-edge-ingress/)
 
 ---
 
 ## Module 4: AI System Design and LLM Infrastructure
 
-- [ ] **Day 01:** Monolithic AI Architectures (In-process ONNX Runtime vs. HEAP bloat)
+- [ ] **Day 01:** Monolithic AI Architectures (In-process ONNX Runtime vs. heap bloat)
 - [ ] **Day 02:** Client-Server and Model Gateways (vLLM, SGLang, TensorRT-LLM decoupling)
 - [ ] **Day 03:** Layered RAG Architecture (Semantic chunking, Hybrid RRF, Cross-Encoder scale)
 - [ ] **Day 04:** MVC in AI Applications (Tool schemas, SSE streams, orchestrators)
@@ -94,7 +89,7 @@ Maintained by: **Arivumani A** (`ArivuBuilds`)
 - [ ] **Pattern 09:** Graphs & Topological Sort (Service boot & Saga rollback dependency DAGs)
 - [ ] **Pattern 10:** DP & State Machines (Token replenishment & transaction state models)
 - [ ] **Pattern 11:** Disjoint Set Union (DSU) (Split-brain & network partition detection)
-- [ ] **Pattern 12:** System Algorithmic Engines (LRU/LFUcache, Consistent Hash ring)
+- [ ] **Pattern 12:** System Algorithmic Engines (LRU/LFU cache, Consistent Hash ring)
 
 ---
 
@@ -104,4 +99,3 @@ To verify and compile the entire playbook:
 
 ```bash
 mvn clean test
-```
