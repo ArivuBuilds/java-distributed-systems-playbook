@@ -2,7 +2,7 @@
 
 An enterprise-grade architecture and code playbook covering low-level Java 21 internals, SOLID OO design, resilient microservices distributed patterns, edge API architecture, high-scale LLM infrastructure, and systems-focused DSA.
 
-Maintained by: **Arivumani A** ([`@ArivuBuilds`](https://x.com/ArivuBuilds) | [LinkedIn](https://www.linkedin.com/in/arivubuilds/))
+Maintained by: **Arivumani A** ([`@ArivuBuilds(X)`](https://x.com/ArivuBuilds) | [`@ArivuBuilds(LinkedIn)`](https://www.linkedin.com/in/arivubuilds/))
 
 ---
 
