@@ -12,7 +12,7 @@ A deep-dive technical track focused on JVM mechanical sympathy, the Java Memory 
 | `04-lock-free-primitives` | Lock-free queue algorithms using Java 9+ `VarHandle` atomic CAS | Completed ✅ | Multi-producer / Consumer Tests |
 | `05-false-sharing-padding` | L1/L2/L3 64-byte cache line contention, manual padding, and `@Contended` | Completed ✅ | Cache-Line Contention Suite |
 | `06-virtual-threads-internals` | Project Loom carrier unmounting, monitor pinning risks, and AQS | Completed ✅ | Pinning Diagnostics Suite |
-| `07-solid-design-principles` | 7-Day SOLID Masterclass with Spring Boot dynamic registries | Completed ✅ (7/7) | Full SOLID Principle Test Suite |
+
 
 ## Deep Dive: 07 - SOLID Design Principles Series
 
