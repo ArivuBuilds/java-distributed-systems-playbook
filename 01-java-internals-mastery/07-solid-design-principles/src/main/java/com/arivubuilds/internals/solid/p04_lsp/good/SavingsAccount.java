@@ -10,7 +10,7 @@ public class SavingsAccount implements WithdrawableAccount {
     @Override public BigDecimal balance() { return balance; }
     @Override public void deposit(BigDecimal amount) { this.balance = this.balance.add(amount); }
     @Override public void withdraw(BigDecimal amount) {
-        if (balance.compareTo(amount) < 0) throw new IllegalArguentException("Insufficient funds");
+        if (balance.compareTo(amount) < 0) throw new IllegalArgumentException("Insufficient funds");
         this.balance = this.balance.subtract(amount);
     }
 }
