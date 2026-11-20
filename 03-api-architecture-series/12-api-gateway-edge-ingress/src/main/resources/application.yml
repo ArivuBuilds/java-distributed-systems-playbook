@@ -1,0 +1,11 @@
+server:
+  port: 8080
+  forward-headers-strategy: framework
+
+spring:
+  application:
+    name: edge-api-gateway
+
+downstream:
+  accounts-url: http://localhost:9001
+  transactions-url: http://localhost:9002

@@ -19,7 +19,7 @@ A definitive engineering guide to building, securing, and scaling production API
 | **09** | [`09-idempotency-keys-deduplication`](./09-idempotency-keys-deduplication) | Idempotency Keys | Distributed mutation locks, payload hashing, 24-hour deduplication | `Completed` ✅ |
 | **10** | [`10-api-versioning-content-negotiation`](./10-api-versioning-content-negotiation) | API Versioning Strategies | URI path vs. custom header vs. vendor MIME content negotiation | `Completed` ✅ |
 | **11** | [`11-oauth2-jwt-revocation-blacklist`](./11-oauth2-jwt-revocation-blacklist) | OAuth 2.0 & JWT Security | Stateless RS256 validation vs. fast-path Redis token blacklist | `Completed` ✅ |
-| **12** | `12-api-gateway-edge-ingress` | API Gateway & Edge Ingress | Reverse proxy routing, W3C TraceContext propagation, circuit breakers | `Planned` ⏳ |
+| **12** | [`12-api-gateway-edge-ingress`](./12-api-gateway-edge-ingress)  | API Gateway & Edge Ingress | Reverse proxy routing, W3C TraceContext propagation, circuit breakers | `Completed` ✅ |
 
 ---
 

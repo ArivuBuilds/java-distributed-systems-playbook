@@ -63,7 +63,7 @@ Maintained by: **Arivumani A** (`ArivuBuilds`)
 - [x] [**Day 09:** Idempotency Keys (Distributed retries and 24-hour deduplication)](03-api-architecture-series/09-idempotency-keys-deduplication/)
 - [x] [**Day 10:** API Versioning Strategies (URI Path vs. Custom Header vs. Accept header)](03-api-architecture-series/10-api-versioning-content-negotiation/)
 - [x] [**Day 11:** OAuth 2.0 and JWT Security (Stateless bearer tokens vs. JTI revocation blacklists)](03-api-architecture-series/11-oauth2-jwt-revocation-blacklistn/)
-- [ ] **Day 12:** API Gateway and Edge Ingress (Reverse proxy, SSL offloading, BFF)
+- [x] [**Day 12:** API Gateway and Edge Ingress (Reverse proxy, SSL offloading, BFF)](03-api-architecture-series/12-api-gateway-edge-ingress/)
 
 ---
 
