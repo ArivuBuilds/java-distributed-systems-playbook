@@ -27,6 +27,7 @@
         <module>04-circuit-breaker-fallback</module>
         <module>05-bulkhead-isolation-pattern</module>
         <module>06-retry-exponential-backoff</module>
+        <module>07-database-per-service-pattern</module>
     </modules>
 
     <properties>

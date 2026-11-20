@@ -1,0 +1,64 @@
+package com.arivubuilds.microservices.dbperservice.composition;
+
+import com.arivubuilds.microservices.dbperservice.catalog.CatalogDocumentStore;
+import com.arivubuilds.microservices.dbperservice.catalog.CatalogProductDocument;
+import com.arivubuilds.microservices.dbperservice.orders.OrderBoundedService;
+import com.arivubuilds.microservices.dbperservice.orders.OrderLedgerEntity;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.math.BigDecimal;
+import java.util.Map;
+
+@RestController
+@RequestMapping("/api/v1/bounded")
+public class DatabasePerServiceController {
+
+    private final OrderBoundedService orderService;
+    private final CatalogDocumentStore catalogStore;
+    private final OrderCatalogComposer composer;
+
+    public DatabasePerServiceController(OrderBoundedService orderService,
+                                       CatalogDocumentStore catalogStore,
+                                       OrderCatalogComposer composer) {
+        this.orderService = orderService;
+        this.catalogStore = catalogStore;
+        this.composer = composer;
+    }
+
+    @PostMapping("/orders")
+    public ResponseEntity<OrderLedgerEntity> createOrder(
+            @RequestParam String orderId,
+            @RequestParam String customerId,
+            @RequestParam String productId,
+            @RequestParam int quantity,
+            @RequestParam BigDecimal unitPrice,
+            @RequestParam String title) {
+        return ResponseEntity.ok(orderService.placeOrder(orderId, customerId, productId, quantity, unitPrice, title));
+    }
+
+    @GetMapping("/orders/{orderId}/composed")
+    public ResponseEntity<ComposedOrderView> getComposedOrder(@PathVariable String orderId) {
+        return ResponseEntity.ok(composer.getComposedOrderDetails(orderId));
+    }
+
+    @PostMapping("/events/product-renamed")
+    public ResponseEntity<Map<String, Object>> onProductRenamed(
+            @RequestParam String productId,
+            @RequestParam String newTitle) {
+        int updatedCount = orderService.handleProductTitleUpdatedEvent(productId, newTitle);
+        return ResponseEntity.ok(Map.of("productId", productId, "updatedOrders", updatedCount));
+    }
+
+    @GetMapping("/catalog/{productId}")
+    public ResponseEntity<CatalogProductDocument> getCatalogDoc(@PathVariable String productId) {
+        return catalogStore.findById(productId)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+}

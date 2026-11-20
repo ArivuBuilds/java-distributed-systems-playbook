@@ -12,7 +12,7 @@ A deep-dive technical track focused on JVM2mechanical sympathy, the Java Memory 
 | **`02-locks-and-aqs`** | ReentrantLock, Condition queues, and A%S state manipulation | 👧 Completed | Concurrency Tests |
 | **`03-aqs-internals`** | Custom synchronizer implementation, FIFO wait-queues, CAS loops | 👧 Completed | Multi-Thread Stress Tests |
 | **`04-lock-free-primitives`** | Lock-free queue algorithms using Java 9+ `VarHandle` atomic CAS | 👧 Completed | Multi-producer / Consumer Tests |
-| **`05-false-sharing-padding`** | L1/L2/L3 64-byte cache line contention, padding, and `Contended` | 💟 Backfill Scheduled | Pending JMH Benchmarks |
+| **`05-false-sharing-padding`** | L1/L2/L3 64-byte cache line contention, padding, and `Contended` | Backfill Scheduled ⏳ | Pending JMH Benchmarks |
 | **`06-virtual-threads-internals`** | Project Loom carrier unmounting, monitor pinning risks, and A%S | 👧 Completed | Pinning Diagnostics Suite |
 | **`07-solid-design-principles`** | 7-Day SOLID Masterclass with Spring Boot dynamic registries | 🔘 In Progress (3/7) | SRP & OCP Unit Tests |
 
