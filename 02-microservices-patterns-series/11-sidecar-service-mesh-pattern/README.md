@@ -1,81 +1,54 @@
-# Day 11: Sidecar and Service Mesh Pattern
+# 11: Sidecar & Service Mesh Pattern (Envoy L7 Proxy & mTLS)
 
 ## Architectural Overview
 
-As distributed microservice topologies scale to dozens or hundreds of services across polyglot stacks (Java, Go, Python, Node.js), embedding operational concerns like mutual TLS (mTLS), distributed tracing, retries, circuit breaking, and rate limiting into individual application codebases creates friction. Upgrading a cipher suite or rotating TLS certificates requires rebuilding and redeploying every microservice.
+In polyglot microservice fleets spanning Java, Go, Python, and Node.js, embedding cross-cutting network libraries—mutual TLS (mTLS), distributed tracing, retries, and metrics—inside every application codebase creates severe operational drift:
 
-The **Sidecar Pattern** decouples network operations from application logic by co-locating an auxiliary L7 proxy (e.g., Envoy) alongside the application container inside the same deployment unit (Kubernetes Pod). A **Service Mesh** (Istio, Linkerd) establishes a centralized control plane to distribute routing policies and rotate X.509 certificates to these distributed sidecar data planes.
+- **Library-Heavy Anti-Pattern:** Upgrading TLS cipher suites, rotating X.509 certificates, or tuning retry policies requires modifying, rebuilding, and redeploying dozens of heterogeneous repositories.
+- **Sidecar Proxy + Service Mesh Control Plane:** An auxiliary Envoy proxy runs alongside the application container inside the same network namespace (`localhost`). Application code speaks plain HTTP locally while Envoy transparently intercepts inbound/outbound traffic to enforce zero-trust mTLS, L7 traffic shaping, and OpenTelemetry telemetry.
 
-```text
-[ Client Pod / Caller ]
-          |
-     (Secure mTLS over Wire on Port 10000)
-          v
-+---------------------------------------------------------+
-| Kubernetes Pod (Shared Network Namespace / localhost)     |
-|                                                      |
-|   +----------------+          +------------------+   |
-|   |   Envoy Sidecar   | -------> | Application Engine |   |
-|   |  (Data Plane L7)  |  (HTTP)  |  (Order Service)   |   |
-|   |    Port: 10000    |  :8080   |    Port: 8080      |   |
-|   +---------------+          +------------------+   |
-|             |                                      |
-+-------------|--------------------------------------------+
-              v
-     Prometheus Metrics (:9901)
+```mermaid
+flowchart LR
+    subgraph PodA ["Service A Pod (Shared Network Namespace)"]
+        AppA["Java / Spring Boot App<br/>(Plain HTTP :8080)"]
+        EnvoyA["Envoy Sidecar Proxy<br/>(mTLS + L7 Telemetry)"]
+    end
+
+    subgraph PodB ["Service B Pod (Shared Network Namespace)"]
+        EnvoyB["Envoy Sidecar Proxy<br/>(mTLS + L7 Telemetry)"]
+        AppB["Downstream Service<br/>(Plain HTTP :8080)"]
+    end
+
+    ControlPlane["Service Mesh Control Plane<br/>(Istio / Linkerd - xDS & Cert Rotation)"]
+
+    AppA -->|"1. Localhost HTTP"| EnvoyA
+    EnvoyA <-->|"2. Zero-Trust mTLS + L7 Routing"| EnvoyB
+    EnvoyB -->|"3. Localhost HTTP"| AppB
+    ControlPlane -.->|"Push Routes & Short-Lived X.509 Certs"| EnvoyA
+    ControlPlane -.->|"Push Routes & Short-Lived X.509 Certs"| EnvoyB
+
+    style PodA fill:#e3f2fd,stroke:#1565c0,stroke-width:2px
+    style PodB fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px
+    style ControlPlane fill:#fff3e0,stroke:#ef6c00,stroke-width:2px
 ```
 
 ---
 
-## Core Operational Mechanics
+## Key Trade-offs
 
-1. **Localhost Network Interception**: In Kubernetes, all containers within a Pod share an IOC and network namespace. The application binds strictly to `127.0.0.1:8080`.
-2. **Transparent Wire Encryption (mTLS)**: The Envoy sidecar listens on port `10000`, requiring incoming connections to present valid X.509 client certificates signed by the mesh CA (`require_client_certificate: true`).
-3. **Automated L7 Retries**: If the local service returns a 5xx error or connection drop, Envoy executes retries with exponential backoff before returning an error upstream.
-4. **Decoupled Telemetry**: The sidecar outputs access logs and Prometheus metrics on port `9901` without requiring language-specific agents.
-
----
-
-## Architecture Trade-offs
-
-| Dimension | Library-Heavy Model (Spring Cloud / SDKs) | Sidecar Service Mesh (Envoy / Istio) |
+| Dimension | Embedded App SDKs (Resilience4j / Micrometer) | Sidecar Proxy + Service Mesh (Envoy / Istio) |
 | :--- | :--- | :--- |
-| **Language Agnostic** | No (requires per-language client libraries) | Yes (consistent proxy for Java, Go, Python) |
-| **Certificate Rotation** | High complexity (app restart / config reloads) | Zero application downtime (control plane hot reload) |
-| **Network Latency** | Baseline (direct socket connection) | Adds ~1-2ms per proxy hop |
-| **Resource Overhead** | Low memory footprint | Requires dedicated CPU/Memory per Pod |
+| **Polyglot Consistency** | Duplicated per language & framework version | Uniform L7 policy enforcement across all languages |
+| **Zero-Trust mTLS & Cert Rotation** | Manual keystore/truststore management per JVM | Automated SPIFFE identity & short-lived cert rotation |
+| **Latency & Resource Footprint** | Zero extra proxy hop or sidecar memory | Adds ~1–2ms proxy hop + Envoy RAM/CPU per Pod |
+| **App Responsibility** | App handles retries, TLS, and metrics directly | App only propagates W3C `traceparent` / `b3` headers |
 
 ---
 
-## Local Verification
+## Production Verification & Artifacts Included
+- Envoy L7 listener/cluster routing configurations, local mTLS certificate generation scripts, and multi-container sidecar specs under `02-microservices-patterns-series/11-sidecar-service-mesh-pattern/`.
 
-### 1. Generate Certificates
+## Build & Run
 ```bash
-cd certs
-./generate-certs.sh
-cd ..
+mvn clean test -f 02-microservices-patterns-series/11-sidecar-service-mesh-pattern/pom.xml -Dnet.bytebuddy.experimental=true
 ```
-
-### 2. Start the Sidecar & Backend
-```bash
-docker compose up -d
-```
-
-### 3. Verify Mutual TLS Enforcement
-
-Attempting to connect without client certificates returns an SSL handshake failure:
-```bash
-curl -k https://localhost:10000/
-# Output: curl: (35) error:0A000412:SSL routines::ssl/tls alert bad certificate
-```
-
-Connecting with the valid client key and CA certificate succeeds:
-```bash
-curl --cacert certs/ca-cert.pem \
-     --cert certs/client-cert.pem \
-     --key certs/client-key.pem \
-     https://localhost:10000/
-# Output: Handled by App via Envoy Sidecar mTLS
-```
-
-### 4. Inspect Proxy Metric
