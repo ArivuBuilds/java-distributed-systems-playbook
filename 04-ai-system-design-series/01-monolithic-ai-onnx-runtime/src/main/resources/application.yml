@@ -1,0 +1,10 @@
+server:
+  port: 8081
+
+ai:
+  onnx:
+    model-path: ${ONNX_MODEL_PATH:}
+    max-concurrent-inferences: 4
+    acquire-timeout-ms: 50
+    intra-op-threads: 2
+    inter-op-threads: 1
