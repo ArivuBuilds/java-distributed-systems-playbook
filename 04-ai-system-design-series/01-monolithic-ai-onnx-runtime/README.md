@@ -1,4 +1,7 @@
 # Day 01 — Monolithic AI Architecture (In-Process Inference with ONNX Runtime)
+<img src="docs/architecture-diagram.jpg" alt="Monolithic AI Architecture Diagram" width="100%" />
+
+![Monolithic AI Architecture Diagram](docs/architecture-diagram.jpg)
 
 ## 1. Architectural Problem
 Embedding ML models directly inside a transactional Spring Boot JVM process eliminates network hops on Day 1, but introduces severe production hazards under concurrent traffic:
