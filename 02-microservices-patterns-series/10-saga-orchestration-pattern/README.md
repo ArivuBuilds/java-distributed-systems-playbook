@@ -1,48 +1,53 @@
-# 10: Saga Pattern (Orchestration vs. Choreography)
+# 10: Saga Orchestration Pattern (Deterministic LIFO Compensation)
 
 ## Architectural Overview
 
-In a distributed microservices topology, executing long-running business transactions that span multiple database boundaries without Two-Phase Commit (2PC/XA) requires a **Saga**:
+In a Database-per-Service architecture, distributed Two-Phase Commit (2PC / XA) transactions hold long-lived database row locks across network boundaries—collapsing throughput and violating service autonomy:
 
-- **Orchestration-Based Saga:** A centralized coordinator (Saga Orchestrator) explicitly manages steps, instructs downstream services via request/reply, and triggers compensating transactions in reverse order upon failure.
-- **Choreography-Based Saga:** Services emit and listen to domain events independently (via Apache Kafka) without a single point of control.
-
----
-
-## Orchestrated Saga & Compensation Flow
+- **Sequence of Local ACID Transactions:** A Saga breaks a cross-service business workflow ($T_1 \rightarrow T_2 \rightarrow T_3$) into independent local transactions executed by participating services.
+- **Centralized State Machine & LIFO Rollback:** A durable Saga Orchestrator tracks step transitions (`StepState`) and sends explicit commands. If step $T_3$ fails (e.g., Inventory out of stock), the orchestrator deterministically executes idempotent **Compensating Transactions** in reverse LIFO order ($C_2 \rightarrow C_1$) to semantically undo prior commits.
 
 ```mermaid
-flowchart TD
-    Orch["Saga Orchestrator"]
-    
-    U1["1. Reserve Underwriting Quota"]
-    P1["2. Charge Premium (FAILS!)"]
-    C1["Compensation: Release Quota"]
+sequenceDiagram
+    participant Orchestrator as Saga Orchestrator
+    participant OrderSvc as Order Service (T1 / C1)
+    participant PaymentSvc as Payment Service (T2 / C2)
+    participant InventorySvc as Inventory Service (T3)
 
-    Orch -->|"1. FORWARD"| U1
-    U1 -->|"Success"| Orch
-    Orch -->|"2. FORWARD"| P1
-    P1 -.->|"Timeout / Insufficient Funds"| Orch
-    
-    Orch ==>|"3. COMPENSATION (LIFO)"| C1
+    Orchestrator->>OrderSvc: 1. Create Pending Order (T1)
+    OrderSvc-->>Orchestrator: OrderCreated (PENDING)
 
-    style Orch fill:#e1f5fe,stroke:#0288d1,stroke-width:2px
-    style P1 fill:#ffebee,stroke:#c62828,stroke-width:2px
-    style C1 fill:#fbe9e7,stroke:#e65100,stroke-width:2px
+    Orchestrator->>PaymentSvc: 2. Authorize & Capture Payment (T2)
+    PaymentSvc-->>Orchestrator: PaymentCharged
+
+    Orchestrator->>InventorySvc: 3. Reserve Stock (T3)
+    InventorySvc-->>Orchestrator: OutOfStockException (Failure)
+
+    Note over Orchestrator: Trigger Deterministic LIFO Compensation (C2 -> C1)
+    Orchestrator->>PaymentSvc: 4. Refund Payment (C2 - Idempotent)
+    PaymentSvc-->>Orchestrator: PaymentRefunded
+
+    Orchestrator->>OrderSvc: 5. Cancel Order (C1 - Idempotent)
+    OrderSvc-->>Orchestrator: OrderCancelled
 ```
 
 ---
 
-## Orchestration vs. Choreography Trade-offs
+## Key Trade-offs
 
-| Dimension | Orchestration (Playbook Model) | Choreography |
+| Dimension | Saga Choreography (Event-Driven) | Saga Orchestration (Command-Driven) |
 | :--- | :--- | :--- |
-| **Visibility** | High — State machine maps complete execution graph | Low — Complex event graphs often lack central observability |
-| **Coupling** | Increased coupling to saga orchestrator contract | Loosely coupled event producers/consumers |
-| **Compensations** | Deterministic reverse execution via executed step stack | Complex consumer-side compensation listeners |
-| **Failure Modes** | Orchestrator requires dead-letter workflows for failed compensations | Cascading event loops and out-of-order event reception |
+| **Workflow Visibility** | Fragmented across event subscribers | Single source of truth in Orchestrator state log |
+| **Service Coupling** | Zero central controller, but prone to cyclic event webs | Orchestrator knows participant commands; participants stay decoupled |
+| **Failure Recovery & Retries** | Hard to coordinate multi-step backward rollbacks | Deterministic LIFO compensation with crash recovery |
+| **Best Fit** | Simple 2–3 step linear workflows | Complex multi-step enterprise workflows (Checkout, Underwriting) |
 
 ---
 
 ## Production Verification Tests Included
-- [`PolicySagaOrchestratorTest.java`](src/test/java/com/arivubuilds/microservices/saga/PolicySagaOrchestratorTest.java): Verifies happy-path forward completion, mid-transaction failure reversals, and compensation step ordering.
+- [`SagaOrchestrationIntegrationTest.java`](src/test/java/com/arivubuilds/microservices/saga/SagaOrchestrationIntegrationTest.java): Integration test validating happy-path forward execution ($T_1 \rightarrow T_2 \rightarrow T_3$) and deterministic LIFO compensating rollbacks ($C_2 \rightarrow C_1$) upon downstream failure.
+
+## Build & Run
+```bash
+mvn clean test -f 02-microservices-patterns-series/10-saga-orchestration-pattern/pom.xml -Dnet.bytebuddy.experimental=true
+```
