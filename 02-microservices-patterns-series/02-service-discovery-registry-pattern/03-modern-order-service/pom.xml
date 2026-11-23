@@ -14,7 +14,7 @@
 
     <artifactId>03-modern-order-service</artifactId>
     <packaging>jar</packaging>
-    <name>03 - Modern Order Microservice</name>
+    <name>Day 02 :: 03 - Modern Order Microservice</name>
     <description>Extracted domain service handling orders independently with isolated datastore</description>
 
     <properties>

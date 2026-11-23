@@ -14,7 +14,7 @@
 
     <artifactId>05-bulkhead-isolation-pattern</artifactId>
     <packaging>jar</packaging>
-    <name>05 - Bulkhead Isolation Pattern (Semaphore vs ThreadPool)</name>
+    <name>Day 05 :: Bulkhead Isolation Pattern</name>
 
     <properties>
         <java.version>21</java.version>

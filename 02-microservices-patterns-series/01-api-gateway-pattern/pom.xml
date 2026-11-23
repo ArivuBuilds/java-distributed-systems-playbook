@@ -14,7 +14,7 @@
 
     <artifactId>01-api-gateway-pattern</artifactId>
     <packaging>jar</packaging>
-    <name>01 - API Gateway Pattern (Ingress Routing, SSL Termination, Token Offload)</name>
+    <name>Day 01 :: API Gateway Pattern</name>
 
     <properties>
         <java.version>21</java.version>

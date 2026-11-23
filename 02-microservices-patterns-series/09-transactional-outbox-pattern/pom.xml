@@ -12,9 +12,9 @@
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
-    <artifactId>08-cqrs-projection-engine</artifactId>
+    <artifactId>09-transactional-outbox-pattern</artifactId>
     <packaging>jar</packaging>
-
+    <name>Day 09 :: Transactional Outbox &amp; CDC Pattern</name>
     <dependencies>
         <dependency>
             <groupId>org.junit.jupiter</groupId>

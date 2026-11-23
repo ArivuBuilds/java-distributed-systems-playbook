@@ -12,14 +12,13 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>04-circuit-breaker-fallback</artifactId>
+    <artifactId>03-backend-for-frontend-pattern</artifactId>
     <packaging>jar</packaging>
-    <name>04 - Circuit Breaker and Fallback Pattern (Resilience4j)</name>
+    <name>Day 03 :: Backend for Frontend (BFF) Pattern</name>
 
     <properties>
         <java.version>21</java.version>
         <spring-boot.version>3.3.2</spring-boot.version>
-        <resilience4j.version>2.2.0</resilience4j.version>
     </properties>
 
     <dependencyManagement>
@@ -38,15 +37,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-aop</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.github.resilience4j</groupId>
-            <artifactId>resilience4j-spring-boot3</artifactId>
-            <version>${resilience4j.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

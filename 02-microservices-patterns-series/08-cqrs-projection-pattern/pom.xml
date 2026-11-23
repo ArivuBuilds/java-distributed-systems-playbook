@@ -12,9 +12,9 @@
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
-    <artifactId>10-saga-orchestrator</artifactId>
+    <artifactId>08-cqrs-projection-pattern</artifactId>
     <packaging>jar</packaging>
-
+    <name>Day 08 :: CQRS Projection Pattern</name>
     <dependencies>
         <dependency>
             <groupId>org.junit.jupiter</groupId>

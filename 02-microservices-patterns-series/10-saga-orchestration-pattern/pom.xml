@@ -12,9 +12,10 @@
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
-    <artifactId>09-transactional-outbox-cdc</artifactId>
+    <artifactId>10-saga-orchestration-pattern</artifactId>
     <packaging>jar</packaging>
-
+    <name>Day 10 :: Saga Orchestration Pattern</name>
+    
     <dependencies>
         <dependency>
             <groupId>org.junit.jupiter</groupId>

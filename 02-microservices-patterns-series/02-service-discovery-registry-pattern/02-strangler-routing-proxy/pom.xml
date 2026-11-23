@@ -14,7 +14,7 @@
 
     <artifactId>02-strangler-routing-proxy</artifactId>
     <packaging>jar</packaging>
-    <name>02 - Strangler Routing Proxy</name>
+    <name>Day 02 :: 02 - Strangler Routing Proxy</name>
 
     <properties>
         <java.version>21</java.version>

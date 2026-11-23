@@ -12,9 +12,9 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>06-retry-exponential-backoff</artifactId>
+    <artifactId>04-circuit-breaker-pattern</artifactId>
     <packaging>jar</packaging>
-    <name>06 - Retry with Exponential Backoff and Decorrelated Jitter</name>
+    <name>Day 04 :: Circuit Breaker &amp; Fallback Pattern</name>
 
     <properties>
         <java.version>21</java.version>

@@ -14,7 +14,7 @@
 
     <artifactId>07-database-per-service-pattern</artifactId>
     <packaging>jar</packaging>
-    <name>07 - Database-per-Service Pattern (Polyglot &amp; Bounded Contexts)</name>
+    <name>Day 07 :: Database-per-Service Pattern</name>
 
     <properties>
         <java.version>21</java.version>

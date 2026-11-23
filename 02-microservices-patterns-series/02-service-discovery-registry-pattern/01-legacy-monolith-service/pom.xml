@@ -14,7 +14,7 @@
 
     <artifactId>01-legacy-monolith-service</artifactId>
     <packaging>jar</packaging>
-    <name>01 - Legacy Monolith Service</name>
+    <name>Day 02 :: 01 - Legacy Monolith Service</name>
 
     <properties>
         <java.version>21</java.version>
