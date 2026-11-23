@@ -30,18 +30,18 @@ Maintained by: **Arivumani A** ([`@ArivuBuilds(X)`](https://x.com/ArivuBuilds) |
 
 ## Module 2: The 12-Day Microservices Architecture Series (12/12 Completed)
 
-- [x] [**Day 01:** API Gateway Pattern (Ingress routing and SSL termination)](02-microservices-patterns-series/01-api-gateway-pattern/)
-- [x] [**Day 02:** Service Discovery and Registry (Client vs. Server-side discovery)](02-microservices-patterns-series/02-service-discovery-registry-pattern/)
-- [x] [**Day 03:** Backend for Frontend (BFF) (Telemetry and response aggregation)](02-microservices-patterns-series/03-backend-for-frontend-pattern/)
-- [x] [**Day 04:** Circuit Breaker and Fallback (Resilience4j state machines)](02-microservices-patterns-series/04-circuit-breaker-pattern/)
-- [x] [**Day 05:** Bulkhead Isolation Pattern (Thread pool vs. Semaphore isolation)](02-microservices-patterns-series/05-bulkhead-isolation-pattern/)
-- [x] [**Day 06:** Retry with Exponential Backoff (Decorrelated jitter mechanisms)](02-microservices-patterns-series/06-retry-exponential-backoff-pattern/)
-- [x] [**Day 07:** Database-per-Service Pattern (Polyglot persistence and data federation)](02-microservices-patterns-series/07-database-per-service-pattern/)
-- [x] [**Day 08:** CQRS Pattern (Segregating write models from projection stores)](02-microservices-patterns-series/08-cqrs-projection-pattern/)
-- [x] [**Day 09:** Event-Driven Architecture and Transactional Outbox Pattern (CDC via Debezium and Kafka)](02-microservices-patterns-series/09-transactional-outbox-pattern/)
-- [x] [**Day 10:** Saga Pattern (Distributed orchestration vs. choreography with LIFO compensations)](02-microservices-patterns-series/10-saga-orchestration-pattern/)
-- [x] [**Day 11:** Sidecar and Service Mesh (Envoy L7 interception, mTLS, and sidecar deployment)](02-microservices-patterns-series/11-sidecar-service-mesh-pattern/)
-- [x] [**Day 12:** Strangler Fig Pattern (Incremental zero-downtime monolith migration)](02-microservices-patterns-series/12-strangler-fig-pattern/)
+- [x] [**Day 01:** API Gateway Pattern (Ingress routing, path predicates, header filters, and SSL termination)](02-microservices-patterns-series/01-api-gateway-pattern/)
+- [x] [**Day 02:** Service Discovery & Registry Pattern (Dynamic routing proxy and service discovery)](02-microservices-patterns-series/02-service-discovery-registry-pattern/)
+- [x] [**Day 03:** Backend for Frontend (BFF) Pattern (Client-tailored payload aggregation and parallel fan-out)](02-microservices-patterns-series/03-backend-for-frontend-pattern/)
+- [x] [**Day 04:** Circuit Breaker & Fallback Pattern (Resilience4j Closed/Open/Half-Open state machines and fallback degradation)](02-microservices-patterns-series/04-circuit-breaker-pattern/)
+- [x] [**Day 05:** Bulkhead Isolation Pattern (Thread-pool vs. Semaphore concurrency isolation preventing cascading failures)](02-microservices-patterns-series/05-bulkhead-isolation-pattern/)
+- [x] [**Day 06:** Retry & Exponential Backoff Pattern (Exponential backoff with decorrelated jitter against thundering-herd retries)](02-microservices-patterns-series/06-retry-exponential-backoff-pattern/)
+- [x] [**Day 07:** Database-per-Service Pattern (Bounded-context persistence isolation and API-driven data federation)](02-microservices-patterns-series/07-database-per-service-pattern/)
+- [x] [**Day 08:** CQRS Projection Pattern (Command-Query Responsibility Segregation with async denormalized read views)](02-microservices-patterns-series/08-cqrs-projection-pattern/)
+- [x] [**Day 09:** Transactional Outbox & CDC Pattern (Dual-write elimination via atomic Outbox table, Debezium CDC, and Kafka)](02-microservices-patterns-series/09-transactional-outbox-pattern/)
+- [x] [**Day 10:** Saga Orchestration Pattern (Distributed Saga orchestration with deterministic LIFO compensating actions)](02-microservices-patterns-series/10-saga-orchestration-pattern/)
+- [x] [**Day 11:** Sidecar & Service Mesh Pattern (Envoy L7 traffic interception, mutual TLS (mTLS), and zero-code observability)](02-microservices-patterns-series/11-sidecar-service-mesh-pattern/)
+- [x] [**Day 12:** Strangler Fig Pattern (Incremental zero-downtime monolith migration via edge gateway routing)](02-microservices-patterns-series/12-strangler-fig-pattern/)
 
 ---
 
