@@ -1,5 +1,4 @@
 # Day 01 — Monolithic AI Architecture (In-Process Inference with ONNX Runtime)
-<img src="docs/architecture-diagram.jpg" alt="Monolithic AI Architecture Diagram" width="100%" />
 
 ![Monolithic AI Architecture Diagram](docs/architecture-diagram.jpg)
 
