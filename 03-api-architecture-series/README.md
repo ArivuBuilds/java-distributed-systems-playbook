@@ -41,4 +41,13 @@ flowchart TD
     Gateway -->|"Binary HTTP/2 Framing"| GrpcSvc["gRPC Protobuf Services (Day 03)"]
     Gateway -->|"TCP Full-Duplex"| WsBroker["WebSocket STOMP Broker (Day 04)"]
     Gateway -->|"text/event-stream"| SseStream["SSE Reactive Telemetry (Day 06)"]
-    Clients -->|"Webhook POST Ingress"| WebhookIngress["HMAC-SHA256 Signature Verifier (Day 05)"]
+    Clients -->|"Webhook POST Ingress"| WebhookIngress["HMAC-SHA256 Signature Verifier (Day 05)"]```
+
+
+## Build & Verification
+
+```bash
+# Build & test all 15 reactor modules across Days 01–12
+    mvn clean test -f 03-api-architecture-series/pom.xml -Dnet.bytebuddy.experimental=true
+    
+    

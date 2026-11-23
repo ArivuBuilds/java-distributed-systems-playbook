@@ -47,18 +47,18 @@ Maintained by: **Arivumani A** ([`@ArivuBuilds(X)`](https://x.com/ArivuBuilds) |
 
 ## Module 3: The 12-Day API Architecture Series (12/12 Completed)
 
-- [x] [**Day 01:** RESTful Resource Modeling (URI nouns, status semantics, HATEOAS)](03-api-architecture-series/01-rest-resource-modeling/)
-- [x] [**Day 02:** GraphQL and Query Complexity (Field-level fetching, N+1 query traps)](03-api-architecture-series/02-graphql-query-complexity/)
-- [x] [**Day 03:** gRPC and Protobuf (Binary serialization and HTTP/2 multiplexing)](03-api-architecture-series/03-grpc-protobuf-multiplexing/)
-- [x] [**Day 04:** WebSockets (Stateful full-duplex TCP vs. Redis Pub/Sub fanout)](03-api-architecture-series/04-websocket-bidirectional-events/)
-- [x] [**Day 05:** Webhooks Reliability (HMAC-SHA256 signatures and decorrelated retries)](03-api-architecture-series/05-webhooks-hmac-verification/)
-- [x] [**Day 06:** Server-Sent Events (SSE) (Lightweight uni-directional LLM token streaming)](03-api-architecture-series/06-sse-unidirectional-streaming/)
-- [x] [**Day 07:** API Pagination Patterns (OFFSET 100000 scan tax vs. Keyset/Cursor)](03-api-architecture-series/07-api-pagination-cursor-seek/)
-- [x] [**Day 08:** Rate Limiting Algorithms (Token Bucket vs. Sliding Windows via Redis Lua)](03-api-architecture-series/08-rate-limiting-redis-token-bucket/)
-- [x] [**Day 09:** Idempotency Keys (Distributed retries and 24-hour deduplication)](03-api-architecture-series/09-idempotency-keys-deduplication/)
-- [x] [**Day 10:** API Versioning Strategies (URI Path vs. Custom Header vs. Accept header)](03-api-architecture-series/10-api-versioning-content-negotiation/)
-- [x] [**Day 11:** OAuth 2.0 and JWT Security (Stateless bearer tokens vs. JTI revocation blacklists)](03-api-architecture-series/11-oauth2-jwt-revocation-blacklist/)
-- [x] [**Day 12:** API Gateway and Edge Ingress (Reverse proxy, SSL offloading, BFF)](03-api-architecture-series/12-api-gateway-edge-ingress/)
+- [x] [**Day 01:** RESTful Resource Modeling (RFC 7807/9457 `ProblemDetail`, URI nouns vs. verbs, HTTP semantics)](03-api-architecture-series/01-rest-resource-modeling/)
+- [x] [**Day 02:** GraphQL Query Complexity (DoS mitigation, query depth limiting, `@BatchMapping` N+1 resolution)](03-api-architecture-series/02-graphql-query-complexity/)
+- [x] [**Day 03:** gRPC & Protobuf Multiplexing (Proto3 contracts, HTTP/2 multiplexing, unary & streaming RPCs)](03-api-architecture-series/03-grpc-protobuf-multiplexing/)
+- [x] [**Day 04:** WebSockets STOMP Messaging (Full-duplex TCP streams, in-memory broker, session interceptors)](03-api-architecture-series/04-websocket-bidirectional-events/)
+- [x] [**Day 05:** Webhooks HMAC Security (HMAC-SHA256 signature verification, timing attack & replay defense)](03-api-architecture-series/05-webhooks-hmac-verification/)
+- [x] [**Day 06:** Server-Sent Events (SSE) (Unidirectional reactive streaming, backpressure buffer, `Last-Event-ID`)](03-api-architecture-series/06-sse-unidirectional-streaming/)
+- [x] [**Day 07:** Keyset & Cursor Pagination ($O(1)$ cursor seeking vs. high-offset degradation (`LIMIT/OFFSET`))](03-api-architecture-series/07-api-pagination-cursor-seek/)
+- [x] [**Day 08:** Distributed Rate Limiting (Token Bucket vs. Sliding Window counters via Redis Lua scripts)](03-api-architecture-series/08-rate-limiting-redis-token-bucket/)
+- [x] [**Day 09:** Idempotency Keys (Distributed mutation locks, payload hashing, 24-hour deduplication)](03-api-architecture-series/09-idempotency-keys-deduplication/)
+- [x] [**Day 10:** API Versioning Strategies (URI path vs. custom header vs. vendor MIME content negotiation)](03-api-architecture-series/10-api-versioning-content-negotiation/)
+- [x] [**Day 11:** OAuth 2.0 & JWT Security (Stateless RS256 validation vs. fast-path Redis token blacklist)](03-api-architecture-series/11-oauth2-jwt-revocation-blacklist/)
+- [x] [**Day 12:** API Gateway & Edge Ingress (Reverse proxy routing, W3C TraceContext propagation, circuit breakers)](03-api-architecture-series/12-api-gateway-edge-ingress/)
 
 ---
 
