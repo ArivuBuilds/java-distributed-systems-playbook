@@ -1,70 +1,54 @@
-# 09: Event-Driven Architecture & The Transactional Outbox Pattern
+# 09: Transactional Outbox & CDC Pattern (Dual-Write Elimination)
 
 ## Architectural Overview
 
-In a distributed microservice topology, executing a local database update and publishing an event to a message broker (e.g., Apache Kafka) represents the classical **dual-write problem**:
+In event-driven microservices, updating a local database and publishing a domain event to Apache Kafka inside the same request introduces the **Dual-Write Anti-Pattern**:
+
+- **Dual-Write Failure Modes:** If the database commits but the Kafka broker times out (or the JVM crashes right before `kafkaTemplate.send()`), downstream consumers permanently miss the state transition. Conversely, publishing to Kafka before the DB commits leaks phantom events if the local transaction rolls back.
+- **Transactional Outbox + Log-Based CDC:** The service writes both the business entity (`orders`) and an immutable event record (`outbox_events`) inside the **exact same local ACID transaction**. A Change Data Capture (CDC) connector (Debezium tailing the DB WAL/Binlog) asynchronously streams committed outbox rows to Kafka with at-least-once delivery guarantees.
 
 ```mermaid
-flowchart TD
-    Client["Client / Upstream Request"] --> Service["Payment Service"]
-    Service -->|"1. Commit DB"| DB[("PostgreSQL Database")]
-    Service -.->|"2. Publish Event (Network Timeout Hazard!)"| Kafka["Apache Kafka"]
+flowchart LR
+    Client["Client / Upstream API"]
 
-    style DB fill:#e1f5fe,stroke:#0288d1,stroke-width:2px
-    style Kafka fill:#ffebee,stroke:#d32f2f,stroke-width:2px,stroke-dasharray: 5 5
-```
-
-If the database commit succeeds but the network connection to Kafka drops, the message is lost forever (data inconsistency). If the event is published first and the database transaction rolls back, downstream systems process phantom records.
-
-Two-Phase Commit (2PC / XA) is unfeasible across modern distributed infrastructure due to blocking locks and poor horizontal scalability.
-
----
-
-## The Solution: Transactional Outbox with Change Data Capture (CDC)
-
-Instead of reaching out across the network to Kafka during the HTTP transaction:
-1. The service inserts the business record (`policies`) and the domain event (`outbox_events`) inside the **exact same ACID local transaction**.
-2. A Transaction Log Miner (e.g., **Debezium CDC via PostgreSQL Write-Ahead Log / `pgoutput`**) streams new rows out of `outbox_events` asynchronously and emits them into Kafka with **at-least-once delivery guarantees**.
-
-```mermaid
-flowchart TD
-    subgraph Microservice ["Policy Issuance Service Boundary"]
-        App["Application Logic"]
-        subgraph DB ["PostgreSQL (Local ACID Transaction)"]
-            T1["policies table"]
-            T2["outbox_events table"]
-        end
-        App -->|"1. INSERT policy<br/>2. INSERT outbox_event"| DB
+    subgraph LocalACID ["Single Local ACID Transaction"]
+        OrderSvc["Order Service"]
+        DomainTbl[("orders Table")]
+        OutboxTbl[("outbox_events Table")]
     end
 
-    WAL[("Write-Ahead Log (WAL)")]
-    DB --> WAL
+    CDC["Debezium CDC Relay<br/>(WAL / Binlog Tailer)"]
+    Kafka[["Apache Kafka Topic<br/>(order.events)"]]
+    Consumer["Downstream Consumer<br/>(Idempotent Deduplication)"]
 
-    Debezium["Debezium CDC Connector"]
-    WAL -->|"Stream Changes (pgoutput)"| Debezium
+    Client -->|"1. Create Order"| OrderSvc
+    OrderSvc -->|"2a. INSERT Order"| DomainTbl
+    OrderSvc -->|"2b. INSERT Outbox Event"| OutboxTbl
+    OutboxTbl -.->|"3. Tail Transaction Log"| CDC
+    CDC -->|"4. Publish Event"| Kafka
+    Kafka -->|"5. At-Least-Once Consume"| Consumer
 
-    Kafka["Apache Kafka Topic: policy-events"]
-    Debezium -->|"At-Least-Once Delivery"| Kafka
-
-    style DB fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
-    style Debezium fill:#e8f5e9,stroke:#388e3c,stroke-width:2px
-    style Kafka fill:#e0f7fa,stroke:#0097a7,stroke-width:2px
+    style LocalACID fill:#e3f2fd,stroke:#1565c0,stroke-width:2px
+    style Kafka fill:#fff3e0,stroke:#ef6c00,stroke-width:2px
 ```
 
 ---
 
-## Trade-offs & Production Considerations
+## Key Trade-offs
 
-| Design Concern | Trade-off / Resolution |
-| :--- | :--- |
-| **Dual-Write Hazard** | Eliminated entirely; RDBMS atomicity enforces consistency. |
-| **CDC vs. Poller** | Log tailing (Debezium) avoids polling CPU overhead and polling query locks. |
-| **Delivery Semantics** | Guarantees **at-least-once**. Downstream consumers must be idempotent (using deduplication keys). |
-| **Outbox Compaction** | Tabled rows must be vacuumed/truncated asynchronously to prevent unbounded RDBMS table bloat. |
+| Dimension | Direct Dual-Write (`DB + Kafka`) | Polling Publisher Outbox | Log-Based CDC Outbox (Debezium) |
+| :--- | :--- | :--- | :--- |
+| **Atomicity Guarantee** | None (prone to lost or phantom events) | Atomic via local ACID DB commit | Atomic via local ACID DB commit |
+| **Database Load** | Low | High (`SELECT ... FOR UPDATE` polling contention) | Minimal (tails sequential WAL / Binlog) |
+| **Delivery Semantics** | Best-effort (data loss risk) | At-least-once | At-least-once (requires idempotent consumers) |
+| **Operational Footprint** | Zero extra infra | Simple scheduled worker in app | Requires Kafka Connect / Debezium connector |
 
 ---
 
-## Production Implementations Included
-- [`V1__create_outbox_schema.sql`](src/main/resources/db/migration/V1__create_outbox_schema.sql): PostgreSQL DDL defining business aggregate and outbox event tables with CDC indexing.
-- [`PolicyIssuanceService.java`](src/main/java/com/arivubuilds/microservices/outbox/service/PolicyIssuanceService.java): Production transactional service writing domain aggregates and outbox payloads atomically.
-- [`TransactionalOutboxTest.java`](src/test/java/com/arivubuilds/microservices/outbox/TransactionalOutboxTest.java): Concurrency and rollback test verifying zero partial state writes under failure conditions.
+## Production Verification Tests Included
+- [`TransactionalOutboxIntegrationTest.java`](src/test/java/com/arivubuilds/microservices/outbox/TransactionalOutboxIntegrationTest.java): Integration test validating atomic persistence of domain state and outbox entries within a single transaction boundary, rollback consistency, and relay publication semantics.
+
+## Build & Run
+```bash
+mvn clean test -f 02-microservices-patterns-series/09-transactional-outbox-pattern/pom.xml -Dnet.bytebuddy.experimental=true
+```
