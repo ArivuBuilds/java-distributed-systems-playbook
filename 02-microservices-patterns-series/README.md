@@ -22,9 +22,9 @@ Production-grade distributed systems patterns built with Java 21, Spring Boot 3.
 ## Build & Verification
 
 ```bash
-# Build & test all Java / Spring Boot modules (Days 01–10)
+# Build & test all 15 reactor modules across Days 01–12
 mvn clean test -f 02-microservices-patterns-series/pom.xml -Dnet.bytebuddy.experimental=true
 
-# Run infrastructure & mesh labs (Days 11–12)
+# Validate infrastructure & service mesh Docker Compose definitions (Days 11–12)
 docker compose -f 02-microservices-patterns-series/11-sidecar-service-mesh-pattern/docker-compose.yml config
 docker compose -f 02-microservices-patterns-series/12-strangler-fig-pattern/docker-compose.yml config

@@ -11,7 +11,7 @@ Maintained by: **Arivumani A** ([`@ArivuBuilds(X)`](https://x.com/ArivuBuilds) |
 - **[`01-java-internals-mastery/`](01-java-internals-mastery/)** — JMM, AQS, lock-free algorithms, cache-line padding, Project Loom virtual threads, and 7-day SOLID mastery
 - **[`02-microservices-patterns-series/`](02-microservices-patterns-series/)** — 12-Day Distributed Systems Architecture Series (Gateway, Discovery, Resilience4j, CQRS, Outbox CDC, Saga, Service Mesh, Strangler Fig)
 - **[`03-api-architecture-series/`](03-api-architecture-series/)** — 12-Day API Architecture and Protocols Series (REST, GraphQL, gRPC, WebSockets, Webhooks, SSE, Cursor Pagination, Redis Rate Limiting, Idempotency, JWT)
-- **[`04-ai-system-design/`](04-ai-system-design/)** — 9-Day LLM Infrastructure, vLLM, Layered RAG, and Deterministic Agent Loops
+- **[`04-ai-system-design-series/`](04-ai-system-design-series/)** — 9-Day AI System Design & LLM Infrastructure Series (ONNX, Model Gateways, Layered RAG, SSE, GPU Pools, Event Pipelines, Serverless, Tools, Agents)
 - **[`05-dsa-systems-mastery/`](05-dsa-systems-mastery/)** — 12-Pattern Systems DSA, mechanical sympathy, and zero-allocation engines
 
 ---
@@ -31,7 +31,7 @@ Maintained by: **Arivumani A** ([`@ArivuBuilds(X)`](https://x.com/ArivuBuilds) |
 ## Module 2: The 12-Day Microservices Architecture Series (12/12 Completed)
 
 - [x] [**Day 01:** API Gateway Pattern (Ingress routing and SSL termination)](02-microservices-patterns-series/01-api-gateway-pattern/)
-- [x] [**Day 02:** Service Discovery and Registry (Client vs. Server-side discovery)](02-microservices-patterns-series/02-service-discovery-registry/)
+- [x] [**Day 02:** Service Discovery and Registry (Client vs. Server-side discovery)](02-microservices-patterns-series/02-service-discovery-registry-pattern/)
 - [x] [**Day 03:** Backend for Frontend (BFF) (Telemetry and response aggregation)](02-microservices-patterns-series/03-backend-for-frontend-pattern/)
 - [x] [**Day 04:** Circuit Breaker and Fallback (Resilience4j state machines)](02-microservices-patterns-series/04-circuit-breaker-pattern/)
 - [x] [**Day 05:** Bulkhead Isolation Pattern (Thread pool vs. Semaphore isolation)](02-microservices-patterns-series/05-bulkhead-isolation-pattern/)
@@ -62,9 +62,9 @@ Maintained by: **Arivumani A** ([`@ArivuBuilds(X)`](https://x.com/ArivuBuilds) |
 
 ---
 
-## Module 4: AI System Design and LLM Infrastructure
+## Module 4: AI System Design and LLM Infrastructure (1/9 Published)
 
-- [ ] **Day 01:** Monolithic AI Architectures (In-process ONNX Runtime vs. heap bloat)
+- [x] [**Day 01:** Monolithic AI Architectures (In-process ONNX Runtime & Semaphore bulkhead)](04-ai-system-design-series/01-monolithic-ai-onnx-runtime/)
 - [ ] **Day 02:** Client-Server and Model Gateways (vLLM, SGLang, TensorRT-LLM decoupling)
 - [ ] **Day 03:** Layered RAG Architecture (Semantic chunking, Hybrid RRF, Cross-Encoder scale)
 - [ ] **Day 04:** MVC in AI Applications (Tool schemas, SSE streams, orchestrators)
@@ -98,4 +98,4 @@ Maintained by: **Arivumani A** ([`@ArivuBuilds(X)`](https://x.com/ArivuBuilds) |
 To verify and compile the entire playbook:
 
 ```bash
-mvn clean test
+mvn clean test -Dnet.bytebuddy.experimental=true
