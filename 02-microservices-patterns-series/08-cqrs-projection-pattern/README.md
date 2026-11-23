@@ -50,3 +50,8 @@ flowchart LR
 
 ## Production Verification Tests Included
 - [`PolicyCQRSIntegrationTest.java`](src/test/java/com/arivubuilds/microservices/cqrs/PolicyCQRSIntegrationTest.java): End-to-end integration test validating command validation, event emission, read projection generation, and eventual consistency boundaries.
+
+## Build & Run
+```bash
+mvn clean test -f 02-microservices-patterns-series/08-cqrs-projection-pattern/pom.xml -Dnet.bytebuddy.experimental=true
+```
