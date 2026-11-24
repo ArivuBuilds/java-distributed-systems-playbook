@@ -1,0 +1,11 @@
+package com.arivubuilds.aisystem.gateway;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class ModelGatewayApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(ModelGatewayApplication.class, args);
+    }
+}

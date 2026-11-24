@@ -15,7 +15,26 @@
     <name>04 - AI System Design &amp; Production LLM Architecture Series</name>
     <description>Production Java 21 + Spring Boot reference implementations for AI inference, model gateways, RAG pipelines, semantic caching, and agentic orchestration.</description>
 
+    <properties>
+        <java.version>21</java.version>
+        <maven.compiler.release>21</maven.compiler.release>
+        <spring-boot.version>3.3.2</spring-boot.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <modules>
         <module>01-monolithic-ai-onnx-runtime</module>
+        <module>02-client-server-model-gateway</module>
     </modules>
 </project>

@@ -9,7 +9,7 @@ Production-grade **Java 21 + Spring Boot 3.3.x** reference implementations cover
 | Day | Module / Pattern | Core Architectural Focus | Status |
 | :--- | :--- | :--- | :--- |
 | **Day 01** | [`01-monolithic-ai-onnx-runtime`](./01-monolithic-ai-onnx-runtime) | In-process ONNX Runtime inference inside Spring Boot, zero-network-hop latency vs. JVM heap/native memory isolation | ✅ Complete |
-| **Day 02** | `02-client-server-model-gateway` | Decoupled AI Model Gateway, dynamic provider routing, token budgeting, and unified REST/SSE streaming contracts | 🚧 Planned |
+| **Day 02** | [`02-client-server-model-gateway`](./02-client-server-model-gateway) | Decoupled AI Model Gateway, dynamic provider routing, token budgeting, and unified REST/SSE streaming contracts | ✅ Complete |
 | **Day 03** | `03-semantic-caching-vector-store` | Embedding-based semantic similarity cache (cosine threshold gating) to cut LLM latency and token spend | 🚧 Planned |
 | **Day 04** | `04-rag-hybrid-retrieval-pipeline` | Chunking strategies, dense vector + BM25 lexical hybrid search, Reciprocal Rank Fusion (RRF), and citation grounding | 🚧 Planned |
 | **Day 05** | `05-llm-resilience-token-rate-limiting` | Token-bucket TPM/RPM rate limiting, fallback model cascades, and timeout guardrails for slow upstream inference | 🚧 Planned |
@@ -26,3 +26,4 @@ Run the Maven reactor for all active modules in this series:
 
 ```bash
 mvn test -f 04-ai-system-design-series/pom.xml
+
