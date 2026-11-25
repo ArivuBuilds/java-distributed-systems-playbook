@@ -1,63 +1,39 @@
-# Day 02 — Client-Server AI Model Gateway (`02-client-server-model-gateway`)
+# Day 02: Client-Server and Model Gateways
 
-Decouples business microservices from direct LLM vendor SDK coupling by introducing a centralized **AI Model Gateway** with policy-driven provider routing, atomic per-tenant token budgeting, and unified synchronous REST + Server-Sent Events (SSE) streaming contracts.
+## Architectural Overview
 
----
+Decoupling LLM/model execution behind a dedicated gateway lets applications route across model engines or providers without hardcoding client-to-engine coupling:
 
-## 1. Architecture Problem & Trade-offs
-
-Embedding vendor-specific SDKs (`OpenAI`, `Anthropic`, `ONNX`, `Bedrock`) directly inside domain services creates tight coupling, scattered API keys, inconsistent retry/timeout policies, and zero visibility into per-tenant token burn.
-
-* **Gain:** Single internal contract (`REST` + `SSE`), zero-code model swaps via `RoutingStrategy` (`COST_OPTIMIZED`, `LOW_LATENCY`, `HIGH_REASONING`), and hard pre-flight token quota enforcement (`HTTP 429`).
-* **Trade-off:** Adds one network hop (`~1-3 ms` internal proxy overhead) and requires careful non-blocking SSE connection lifecycle management so slow token streams do not exhaust servlet threads.
-
----
-
-## 2. Architecture Flow
+- **Direct Engine / Provider Coupling Anti-Pattern:** Calling model runtimes or external providers directly from every application makes switching engines (such as vLLM, SGLang, or TensorRT-LLM) or enforcing budgets/streaming contracts inconsistent.
+- **Client-Server Model Gateway:** Centralizes provider/engine routing, token/request budgets, and unified REST/SSE streaming responses behind a clean gateway boundary.
 
 ```mermaid
 flowchart LR
-    Client[Domain Microservice] -->|POST /api/v1/gateway/completions| GW[Model Gateway Controller]
-    Client -->|POST /api/v1/gateway/completions/stream| GW
-    GW --> Budget[TenantTokenBudgetService<br/>CAS Atomic Quota]
-    Budget -->|429 Too Many Requests| Client
-    Budget -->|Quota Reserved| Router[DynamicModelRouter]
-    Router -->|LOW_LATENCY| SLM[local-slm<br/>phi-3.5-mini-onnx]
-    Router -->|COST_OPTIMIZED| Cloud[balanced-cloud<br/>claude-haiku-4-5]
-    Router -->|HIGH_REASONING| Frontier[frontier-reasoning<br/>claude-sonnet-4-6]
+    App["Client Application"]
+    Gateway["AI Model Gateway<br/>(Routing, Budgets & Streaming)"]
+    EngineA["Inference Engine / Provider A<br/>(vLLM / SGLang)"]
+    EngineB["Inference Engine / Provider B<br/>(TensorRT-LLM / Fallback)"]
+
+    App -->|"Unified Request / SSE"| Gateway
+    Gateway -->|"Routed Call"| EngineA
+    Gateway -.->|"Fallback / Route"| EngineB
+
+    style Gateway fill:#e3f2fd,stroke:#1565c0,stroke-width:2px
 ```
 
 ---
 
-## 3. Core Components
+## Key Trade-offs
 
-| Component | Responsibility |
-| :--- | :--- |
-| `ModelGatewayController` | Exposes unified `/completions` (JSON) and `/completions/stream` (`text/event-stream`) endpoints. |
-| `DynamicModelRouter` | Resolves target `ModelProviderAdapter` via explicit override or strategy comparator (`latency` vs. `costPer1kTokens`). |
-| `TenantTokenBudgetService` | Lock-free CAS token bucket (`AtomicInteger.compareAndSet`) preventing multi-threaded tenant quota overruns. |
-| `ModelProviderAdapter` | SPI abstracting local edge SLMs and remote foundation models behind uniform token-chunked responses. |
+| Dimension | Direct Runtime Calls | Model Gateway Abstraction |
+| :--- | :--- | :--- |
+| **Provider / Engine Portability** | Coupled to specific client/runtime APIs | Isolates callers behind a unified gateway contract |
+| **Latency & Hop Overhead** | Fewer intermediate hops | Adds a gateway hop; improves routing, budgeting & observability |
+| **Governance & Budgets** | Scattered across services | Enforced centrally at the gateway |
 
 ---
 
-## 4. How to Run & Verify
-
-```bash
-mvn test -f 04-ai-system-design-series/02-client-server-model-gateway/pom.xml
-```
 ## Build & Run
 ```bash
-mvn clean test -f 04-ai-system-design-series/02-client-server-model-gateway/pom.xml -Dnet.bytebuddy.experimental=true
+mvn test -f 04-ai-system-design-series/02-client-server-model-gateway/pom.xml -Dnet.bytebuddy.experimental=true
 ```
----
-
-## 5. Production Guardrails
-
-* **Pre-Flight Token Reservation:** Deduct estimated prompt + max completion tokens before invoking upstream inference; reconcile actual completion tokens post-stream.
-* **Bounded SSE Timeouts:** Configure explicit `SseEmitter` timeouts (`15s`-`60s`) and clean up disconnected clients on `IOException`.
-* **Fallback Cascades:** Pair `HIGH_REASONING` routes with a `COST_OPTIMIZED` fallback provider when upstream latency breaches SLA thresholds.
-
-
----
-
-**Author:** Arivumani A · [@ArivuBuilds (X)](https://x.com/ArivuBuilds) · [@ArivuBuilds (LinkedIn)](https://www.linkedin.com/in/ArivuBuilds/)

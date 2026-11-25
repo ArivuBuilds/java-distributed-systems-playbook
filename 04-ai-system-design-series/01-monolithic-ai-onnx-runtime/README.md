@@ -1,26 +1,39 @@
-# Day 01 — Monolithic AI Architecture (In-Process Inference with ONNX Runtime)
+# Day 01: Monolithic AI Architectures
 
-![Monolithic AI Architecture Diagram](docs/architecture-diagram.jpg)
+## Architectural Overview
 
-## 1. Architectural Problem
-Embedding ML models directly inside a transactional Spring Boot JVM process eliminates network hops on Day 1, but introduces severe production hazards under concurrent traffic:
-1. **Off-Heap Native Memory Contention:** ONNX Runtime allocates weights and execution tensors via native C++ JNI memory outside `-Xmx`, colliding with JVM heap and OS page cache and causing Linux `OOMKill` events.
-2. **CPU Thread Starvation:** Compute-heavy matrix multiplications saturate CPU cores and starve Tomcat/Netty worker threads and HikariCP housekeeping.
-3. **Asymmetric Scaling:** Bundling 600MB–2GB model weights inside service containers slows autoscaling and couples model updates to full application redeployments.
+Running inference in-process inside a Spring Boot service avoids network serialization and hop overhead, but shares process resources with application threads and JVM heap:
 
-## 2. Production Guardrails Implemented
-* **Semaphore Bulkhead (`FencedOnnxInferenceService`):** Caps concurrent native `OrtSession.run()` calls and sheds excess load immediately (`HTTP 429` + `Retry-After`) before HTTP worker threads pile up.
-* **Native Thread Pool Capping (`OnnxRuntimeConfig`):** Sets `setIntraOpNumThreads(2)` and `setInterOpNumThreads(1)` so ONNX's C++ thread pool does not thrash the JVM scheduler.
-* **Deterministic Tensor Lifecycle:** Uses `try-with-resources` on `OnnxTensor` and `OrtSession.Result` to release native off-heap buffers immediately after inference.
+- **Unbounded In-Process Inference Anti-Pattern:** Executing heavy model inference directly on request threads without concurrency limits or memory isolation can starve HTTP workers or trigger native/heap memory pressure.
+- **In-Process ONNX Runtime + Semaphore Bulkhead:** Runs ONNX Runtime inference in-process while guarding concurrency with a semaphore bulkhead and keeping JVM heap vs. native inference memory boundaries clear.
 
-## 3. Running Locally
-```bash
-mvn clean test
+```mermaid
+flowchart LR
+    Client["API Request"]
+    Bulkhead["Semaphore Bulkhead<br/>(Concurrency Guard)"]
+    ONNX["In-Process ONNX Runtime<br/>(Model Session)"]
+    Heap["JVM Heap & Native Memory<br/>(Resource Boundary)"]
+
+    Client --> Bulkhead --> ONNX
+    ONNX -.->|"Isolated Footprint"| Heap
+
+    style Bulkhead fill:#fff3e0,stroke:#ef6c00,stroke-width:2px
+    style ONNX fill:#e3f2fd,stroke:#1565c0,stroke-width:2px
+```
+
+---
+
+## Key Trade-offs
+
+| Dimension | Embedded In-Process Inference | Out-of-Process Model Service |
+| :--- | :--- | :--- |
+| **Network Latency** | Zero network hop per inference call | Adds network serialization & hop latency |
+| **Resource Isolation** | Shares host CPU/memory & concurrency budget with app | Scales and isolates GPU/CPU compute independently |
+| **Model Lifecycle** | Tied to application deployment cycle | Models can update/scale independently |
+
+---
 
 ## Build & Run
 ```bash
-mvn clean test -f 04-ai-system-design-series/01-monolithic-ai-onnx-runtime/pom.xml -Dnet.bytebuddy.experimental=true
+mvn test -f 04-ai-system-design-series/01-monolithic-ai-onnx-runtime/pom.xml -Dnet.bytebuddy.experimental=true
 ```
----
-
-**Author:** Arivumani A · [@ArivuBuilds (X)](https://x.com/ArivuBuilds) · [@ArivuBuilds (LinkedIn)](https://www.linkedin.com/in/ArivuBuilds/)
