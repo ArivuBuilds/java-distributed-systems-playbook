@@ -1,29 +1,25 @@
 # 04 — AI System Design & Production LLM Architecture Series
 
-Production-grade **Java 21 + Spring Boot 3.3.x** reference implementations covering the architectural evolution from embedded, in-process ML inference to resilient, multi-model AI gateways, Retrieval-Augmented Generation (RAG) pipelines, and deterministic agentic orchestration.
-
----
+Production-grade Java 21 + Spring Boot 3.3.x reference implementations covering the architectural evolution from embedded, in-process ML inference to resilient model gateways, layered RAG pipelines, MVC orchestration, GPU pools, event-driven pipelines, serverless inference, tool calling, and deterministic self-reflection agent loops.
 
 ## 9-Day Architectural Roadmap
 
 | Day | Module / Pattern | Core Architectural Focus | Status |
 | :--- | :--- | :--- | :--- |
-| **Day 01** | [`01-monolithic-ai-onnx-runtime`](./01-monolithic-ai-onnx-runtime) | In-process ONNX Runtime inference inside Spring Boot, zero-network-hop latency vs. JVM heap/native memory isolation | ✅ Complete |
-| **Day 02** | [`02-client-server-model-gateway`](./02-client-server-model-gateway) | Decoupled AI Model Gateway, dynamic provider routing, token budgeting, and unified REST/SSE streaming contracts | ✅ Complete |
-| **Day 03** | `03-semantic-caching-vector-store` | Embedding-based semantic similarity cache (cosine threshold gating) to cut LLM latency and token spend | 🚧 Planned |
-| **Day 04** | `04-rag-hybrid-retrieval-pipeline` | Chunking strategies, dense vector + BM25 lexical hybrid search, Reciprocal Rank Fusion (RRF), and citation grounding | 🚧 Planned |
-| **Day 05** | `05-llm-resilience-token-rate-limiting` | Token-bucket TPM/RPM rate limiting, fallback model cascades, and timeout guardrails for slow upstream inference | 🚧 Planned |
-| **Day 06** | `06-structured-outputs-guardrails` | Deterministic JSON Schema validation, PII redaction filters, and prompt-injection boundary enforcement | 🚧 Planned |
-| **Day 07** | `07-async-batch-inference-outbox` | High-throughput asynchronous document ingestion and batch inference backed by transactional outbox queues | 🚧 Planned |
-| **Day 08** | `08-mcp-tool-orchestration-pattern` | Model Context Protocol (MCP) unified tool gateway, persistent session state, and bounded multi-step agent loops | 🚧 Planned |
-| **Day 09** | `09-llm-observability-eval-harness` | OpenTelemetry token/latency tracing, cost attribution per tenant, and automated regression evaluation gates | 🚧 Planned |
+| **Day 01** | `01-monolithic-ai-onnx-runtime` | In-process ONNX Runtime & semaphore bulkhead isolation inside Spring Boot | ✅ Published |
+| **Day 02** | `02-client-server-model-gateway` | Client-server decoupling and model gateways (vLLM, SGLang, TensorRT-LLM) | ✅ Published |
+| **Day 03** | `03-layered-rag-architecture` | Layered RAG architecture: semantic chunking, hybrid RRF, and cross-encoder ranking | ✅ Built & Tested |
+| **Day 04** | `04-mvc-in-ai-applications` | MVC in AI applications: tool schemas, SSE streams, and orchestrators | 📅 Scheduled (Daily Series) |
+| **Day 05** | `05-microservices-gpu-pools` | Microservices and GPU pools: heterogeneous node pools and KV-cache rate limits | 📅 Scheduled (Daily Series) |
+| **Day 06** | `06-event-driven-ai-pipelines` | Event-driven AI pipelines: async Kafka/CDC embeddings and backpressure | 📅 Scheduled (Daily Series) |
+| **Day 07** | `07-serverless-ai-cold-starts` | Serverless AI & cold starts: warm GPU pools and weight streaming via Firecracker | 📅 Scheduled (Daily Series) |
+| **Day 08** | `08-tool-use-function-calling` | Tool use and function calling: structured JSON schemas and timeout budgets | 📅 Scheduled (Daily Series) |
+| **Day 09** | `09-self-reflection-agent-loops` | Self-reflection and agent loops: infinite-loop guardrails, FSM, and deterministic halting | 📅 Scheduled (Daily Series) |
 
 ---
 
-## Build & Verification
-
-Run the Maven reactor for all active modules in this series:
+## Build & Run All Modules
 
 ```bash
-mvn test -f 04-ai-system-design-series/pom.xml
-
+mvn clean test -f 04-ai-system-design-series/pom.xml -Dnet.bytebuddy.experimental=true
+```

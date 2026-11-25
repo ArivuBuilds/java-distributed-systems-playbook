@@ -1,0 +1,8 @@
+rag:
+  chunking:
+    max-chars: 320
+    overlap-sentences: 1
+  retrieval:
+    rrf-k: 60
+    candidate-limit: 8
+    top-k: 3
