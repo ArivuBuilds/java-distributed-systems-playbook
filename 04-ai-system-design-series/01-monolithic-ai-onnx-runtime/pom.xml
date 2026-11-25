@@ -11,8 +11,8 @@
     </parent>
 
     <artifactId>01-monolithic-ai-onnx-runtime</artifactId>
-    <name>Day 01 :: Monolithic AI Architecture (ONNX Runtime)</name>
-    <description>In-process ONNX Runtime inference inside Spring Boot with zero-network-hop latency and JVM heap/native memory isolation.</description>
+    <name>Day 01 :: Monolithic AI Architectures</name>
+    <description>In-process ONNX Runtime inference and semaphore bulkhead isolation inside Spring Boot.</description>
 
     <properties>
         <onnxruntime.version>1.19.2</onnxruntime.version>

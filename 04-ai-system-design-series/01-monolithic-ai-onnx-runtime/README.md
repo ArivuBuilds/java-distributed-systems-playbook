@@ -16,3 +16,11 @@ Embedding ML models directly inside a transactional Spring Boot JVM process elim
 ## 3. Running Locally
 ```bash
 mvn clean test
+
+## Build & Run
+```bash
+mvn clean test -f 04-ai-system-design-series/01-monolithic-ai-onnx-runtime/pom.xml -Dnet.bytebuddy.experimental=true
+```
+---
+
+**Author:** Arivumani A · [@ArivuBuilds (X)](https://x.com/ArivuBuilds) · [@ArivuBuilds (LinkedIn)](https://www.linkedin.com/in/ArivuBuilds/)

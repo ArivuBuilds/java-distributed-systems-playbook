@@ -45,7 +45,10 @@ flowchart LR
 ```bash
 mvn test -f 04-ai-system-design-series/02-client-server-model-gateway/pom.xml
 ```
-
+## Build & Run
+```bash
+mvn clean test -f 04-ai-system-design-series/02-client-server-model-gateway/pom.xml -Dnet.bytebuddy.experimental=true
+```
 ---
 
 ## 5. Production Guardrails
@@ -53,6 +56,7 @@ mvn test -f 04-ai-system-design-series/02-client-server-model-gateway/pom.xml
 * **Pre-Flight Token Reservation:** Deduct estimated prompt + max completion tokens before invoking upstream inference; reconcile actual completion tokens post-stream.
 * **Bounded SSE Timeouts:** Configure explicit `SseEmitter` timeouts (`15s`-`60s`) and clean up disconnected clients on `IOException`.
 * **Fallback Cascades:** Pair `HIGH_REASONING` routes with a `COST_OPTIMIZED` fallback provider when upstream latency breaches SLA thresholds.
+
 
 ---
 

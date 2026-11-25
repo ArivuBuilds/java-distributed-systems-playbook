@@ -11,8 +11,8 @@
     </parent>
 
     <artifactId>02-client-server-model-gateway</artifactId>
-    <name>Day 02 :: Client-Server AI Model Gateway</name>
-    <description>Decoupled AI Model Gateway with dynamic provider routing, per-tenant token budgeting, and unified REST/SSE streaming contracts.</description>
+    <name>Day 02 :: Client-Server and Model Gateways</name>
+    <description>Decoupled AI model gateway architecture with dynamic provider routing, token budgeting, and streaming inference.</description>
 
     <dependencies>
         <dependency>
