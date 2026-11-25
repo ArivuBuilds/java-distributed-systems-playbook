@@ -1,17 +1,12 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
-                             https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="utf-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0                               https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <parent>
         <groupId>com.arivubuilds</groupId>
         <artifactId>java-distributed-systems-playbook</artifactId>
         <version>1.0.0-SNAPSHOT</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
-
     <artifactId>09-transactional-outbox-pattern</artifactId>
     <packaging>jar</packaging>
     <name>Day 09 :: Transactional Outbox &amp; CDC Pattern</name>
@@ -22,4 +17,5 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+    <description>Dual-write elimination via atomic outbox table, Debezium CDC, and Kafka.</description>
 </project>
