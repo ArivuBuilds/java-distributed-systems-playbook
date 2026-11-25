@@ -1,26 +1,20 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
-         http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="utf-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0           http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <parent>
         <groupId>com.arivubuilds</groupId>
         <artifactId>03-api-architecture-series</artifactId>
         <version>1.0.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-
     <artifactId>11-oauth2-jwt-revocation-blacklist</artifactId>
     <packaging>jar</packaging>
-    <name>11 - OAuth2 JWT Issuance and Redis Revocation Blacklist</name>
-
+    <name>Day 11 :: OAuth 2.0 &amp; JWT Security</name>
+    <description>Stateless RS256 token validation versus fast-path Redis token revocation blacklist.</description>
     <properties>
         <java.version>21</java.version>
         <spring-boot.version>3.3.2</spring-boot.version>
     </properties>
-
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -32,7 +26,6 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -57,7 +50,6 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
     <build>
         <plugins>
             <plugin>
@@ -78,5 +70,5 @@
                 </configuration>
             </plugin>
         </plugins>
-    </build>
+    </build>    
 </project>

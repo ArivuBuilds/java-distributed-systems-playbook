@@ -1,26 +1,20 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
-         http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="utf-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0           http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <parent>
         <groupId>com.arivubuilds</groupId>
         <artifactId>03-api-architecture-series</artifactId>
         <version>1.0.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-
     <artifactId>10-api-versioning-content-negotiation</artifactId>
     <packaging>jar</packaging>
-    <name>10 - API Versioning and Content Negotiation</name>
-
+    <name>Day 10 :: API Versioning Strategies</name>
+    <description>URI path versus custom header versus vendor MIME content negotiation.</description>
     <properties>
         <java.version>21</java.version>
         <spring-boot.version>3.3.2</spring-boot.version>
     </properties>
-
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -32,7 +26,6 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -48,7 +41,6 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
     <build>
         <plugins>
             <plugin>
@@ -69,5 +61,5 @@
                 </configuration>
             </plugin>
         </plugins>
-    </build>
+    </build>    
 </project>
