@@ -1,57 +1,41 @@
-# 06: Virtual Threads Internals and Carrier Pinning
+# 06: Virtual Threads Internals & Carrier Scheduling
 
 ## Architectural Overview
 
-Java 21 Project Loom introduces **Virtual Threads**, which are user-mode threads scheduled by the JVM rather than directly by the OS kernel. Virtual threads run on a small pool of OS worker threads known as **Carrier Threads** (typically sized to the number of available CPU cores).
+Project Loom virtual threads make high-concurrency I/O programming straightforward, but their throughput depends on letting carrier threads unmount cleanly during blocking operations:
 
-When a virtual thread encounters a blocking operation (such as blocking IIO or `park()`), its continuation stack frame is unmounted from the carrier and copied to the Java heap, freeing the carrier to execute other tasks.
+- **Carrier Pinning & Blocking Anti-Pattern:** Holding a `synchronized` monitor across blocking I/O or saturating shared pools without AQS/lock awareness can pin virtual threads to OS carrier threads and reduce scalability.
+- **Carrier Unmounting & AQS/Lock Awareness:** Uses virtual-thread-friendly synchronization (`ReentrantLock` / AQS) and non-pinning patterns so carrier threads are released promptly while waiting threads park cleanly.
 
-```text
-+o----------------------------------------------------------------+-+
-| Virtual Thread Task (Project Loom Continuation Frame)          |
-+o-----------------------------------------------------------------+-+
-              | (Unmount on Blocking I/O)
-              v
-+------------------------------+-+     +-------------------------+
-| ForkJoinPool Carrier Thread 0 |  ... | ForkJoinPool Carrier Thread N |
-+-------------------------------+-+     +-------------------------+
-              | (OS Scheduled)
-              v
-+------------------------------------------------------------------+-+
-| Kernel CPU Cores (x86-64 / ARM64 Hardware Registers)           |
-+------------------------------------------------------------------+-+
-```o
+```mermaid
+flowchart LR
+    VT["Virtual Threads<br/>(High-Concurrency Tasks)"]
+    Carrier["OS Carrier Thread Pool<br/>(ForkJoinPool Scheduler)"]
+    PinRisk["Monitor Pinning / Contention<br/>(Avoid Blocking While Pinned)"]
+    Unmount["Clean Unmount & Park<br/>(ReentrantLock / AQS)"]
 
----
+    VT -->|"Mounted to Run"| Carrier
+    Carrier -.->|"Avoid Pinning"| PinRisk
+    Carrier -->|"Yields on Park"| Unmount -->|"Resumes on Carrier"| VT
 
-## Carrier Thread Pinning Risks
-
-* **Carrier Pinning** occurs when a virtual thread cannot be unmounted during a blocking operation, holding its carrier OS thread captive.
-* **Causes**:
-  1. Executing a blocking operation inside a `synchronized` block or method (monitor pinning).
-  2. Executing native frames via JNI or FFmH.
-* **Mitigation**: Replace monitor-based `synchronized` blocks with `java.util.concurrent.locks.ReentrantLock`, which unmounts cleanly via AQS.
-
-
----
-
-## Comparison Matrix
-
-| Dimension | Platform Threads | Virtual Threads (Under Pinning) | Virtual Threads (Healthy) |
-| :--- | :--- | :--- | :--- |
-| **Scheduling** | OS Kernel | JVM ForkJoinPool | JVM ForkJoinPool |
-| **Memory Footprint** | ~1 MB stack | Copied stack + Carrier tied | Secondary heap frames (KBs) |
-| **Blocking Behavior** | Blocks OS thread | Blocks Carrier OS thread | Unmounts and yields carrier |
-| **Scaling Limits** | Limited by OS (1K - 10K) | Limited by Carriers (CPU Cores) | High Scale (100K ¡ 1M+) |
-
-
----
-
-## Verification
-
-Run the module test suite with pinning detection enabled:
-
-```bash
-mvn test -pl :06-virtual-threads-internals
+    style Carrier fill:#e3f2fd,stroke:#1565c0,stroke-width:2px
+    style Unmount fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px
 ```
 
+---
+
+## Key Trade-offs
+
+| Dimension | Platform Threads / Blocking `synchronized` | Virtual Threads + Unmount-Safe Locks (`ReentrantLock`/AQS) |
+| :--- | :--- | :--- |
+| **I/O Concurrency Scaling** | Bounded by scarce OS thread stacks & pools | Scales to large numbers of concurrent blocking I/O tasks |
+| **Pinning & Contention Risk** | Thread blocks OS thread directly | Must avoid carrier pinning to preserve scheduler throughput |
+| **CPU-Bound Work** | Matches available CPU cores | Still bounded by physical CPU cores; no magic speedup for pure CPU math |
+
+---
+
+## Build & Run
+
+```bash
+mvn test -f 01-java-internals-mastery/06-virtual-threads-internals/pom.xml -Dnet.bytebuddy.experimental=true
+```

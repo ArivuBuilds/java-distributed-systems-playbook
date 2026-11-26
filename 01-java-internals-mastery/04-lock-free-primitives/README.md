@@ -1,22 +1,40 @@
-# 04: Lock-Free Primitives and VarHandle Mechanics
+# 04: Lock-Free Primitives & `VarHandle`
 
 ## Architectural Overview
 
-Traditional synchronization primitives (`synchronized`, `ReentrantLock`) protect critical sections via thread suspension, operating system context switches, and kernel transitions. Under extreme producer-consumer contention, thread parking and unparking introduce non-deterministic tail latencies.
+High-concurrency queues and shared structures can avoid coarse lock contention by coordinating atomic pointer/state updates with `VarHandle` compare-and-set (CAS) and explicit memory modes:
 
-The **Michael-Scott Lock-Free Queue** algorithm guarantees system-wide forward progress (lock-free) without thread blocking. Using Java 9+ `VarHandle`, memory modifications execute directly as atomic hardware-level Compare-And-Swap (`CAS`) instructions.
+- **Coarse Lock Contention Anti-Pattern:** Serializing every enqueue/dequeue behind a single lock creates contention bottlenecks and thread blocking under heavy multi-producer/consumer load.
+- **Lock-Free CAS & `VarHandle` Access Modes:** Uses `VarHandle` (`compareAndSet`, `getAcquire`, `setRelease`, `getVolatile`) to advance head/tail/node links non-blockingly with well-defined memory ordering.
 
-```text
-Enqueue Transition:
-Tail -> [ Sentinel Node ] -> null
-              ^
-        (newNode arrives)
+```mermaid
+flowchart LR
+    Producers["Producer Threads"]
+    VH["VarHandle Atomic CAS<br/>(Release / Acquire / Volatile)"]
+    Buffer["Lock-Free Queue / Nodes<br/>(Head & Tail Links)"]
+    Consumers["Consumer Threads"]
 
-Step 1 (Swing next pointer):
-Tail -> [ Sentinel Node ] ----CAS----> [ New Node ] -> null
+    Producers -->|"CAS Tail Advance"| VH --> Buffer
+    Buffer -->|"CAS Head Advance"| VH --> Consumers
 
-Step 2 (Advance tail pointer):
-        [ Sentinel Node ]              [ New Node ] -> null
-                                             ^
-                                           Tail
-Core Concurrency MechanicsAtomic Reference Updates with VarHandle: Replaces legacy AtomicReference and AtomicReferenceFieldUpdater with zero-overhead polymorphic signature calls directly inlined by the JIT compiler.Sentinel Node Invariant: The queue maintains a dummy head node. head.next always points to the first true element, preventing empty/non-empty boundary race conditions.Helping Lagging Threads: If a thread detects tail.next != null, another enqueue operation linked a node but did not finish advancing tail. The observing thread proactively advances tail before proceeding, ensuring global progress.Asymptotic & Memory BoundsDimensionMutex-Based Blocking QueueLock-Free Michael-Scott QueueProgress GuaranteeBlocking (Vulnerable to thread descheduling)Lock-Free (At least one thread makes progress)Thread Context SwitchesHigh under contention (OS park/unpark)Zero (Threads spin via bounded CAS attempts)Enq/Deq Complexity$O(1)$ amortized (with lock contention latency)$O(1)$ amortized non-blockingAuxiliary Space$O(1)$$O(1)$ per node insertion
+    style VH fill:#e3f2fd,stroke:#1565c0,stroke-width:2px
+    style Buffer fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px
+```
+
+---
+
+## Key Trade-offs
+
+| Dimension | Lock-Based Queue / Structure | Lock-Free `VarHandle` CAS Structure |
+| :--- | :--- | :--- |
+| **Thread Blocking & Contention** | Threads block when lock is held | Non-blocking CAS progress; retries under contention |
+| **Ordering Granularity** | Full lock critical section | Fine-grained `VarHandle` access modes (`plain`, `opaque`, `releaseAcquire`, `volatile`) |
+| **Design & Verification Effort** | Easier to reason about invariants | Requires careful CAS retry loops, ABA/null-link & edge-case testing |
+
+---
+
+## Build & Run
+
+```bash
+mvn test -f 01-java-internals-mastery/04-lock-free-primitives/pom.xml -Dnet.bytebuddy.experimental=true
+```

@@ -1,28 +1,42 @@
-# 02: `ReentrantLock` vs. `synchronized` & Multi-Condition Queues
+# 02: Locks & AbstractQueuedSynchronizer (AQS)
 
-## 🔍 Core Architectural Differences
+## Architectural Overview
 
-| Feature | `synchronized` | `ReentrantLock` |
+Coordinating exclusive access, condition signaling, and queued contention in Java relies on `AbstractQueuedSynchronizer` (AQS) and explicit lock/condition abstractions rather than uncoordinated monitor blocks:
+
+- **Ad-Hoc Monitor / Unbounded Contention Anti-Pattern:** Relying solely on implicit monitors without fairness/condition separation or timed/interruptible acquisition can cause thundering-herd wakeups or difficult lock diagnostics.
+- **Explicit Locks, Condition Queues & AQS State:** Uses `ReentrantLock`, dedicated `Condition` wait sets, and AQS `state` management to separate waiting conditions, support fair/non-fair modes, and control thread parking cleanly.
+
+```mermaid
+flowchart LR
+    Threads["Contending Threads"]
+    Lock["ReentrantLock / AQS Sync<br/>(Atomic state + CLH Queue)"]
+    CondA["Condition Queue A<br/>(Specific Predicate Wait)"]
+    CondB["Condition Queue B<br/>(Separate Predicate Wait)"]
+
+    Threads -->|"acquire / tryAcquire"| Lock
+    Lock <-->|"await / signal"| CondA
+    Lock <-->|"await / signal"| CondB
+
+    style Lock fill:#e3f2fd,stroke:#1565c0,stroke-width:2px
+    style CondA fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px
+    style CondB fill:#fff3e0,stroke:#ef6c00,stroke-width:2px
+```
+
+---
+
+## Key Trade-offs
+
+| Dimension | Intrinsic `synchronized` Monitor | `ReentrantLock` + `Condition` / AQS |
 | :--- | :--- | :--- |
-| **Mechanism** | JVM intrinsic monitor (`monitorenter` / `monitorexit`) | API level via AbstractQueuedSynchronizer (AQS) |
-| **Lock Acquisition** | Uninterruptible blocking | `lock()`, `lockInterruptibly()`, `tryLock()` |
-| **Timed Waiting** | No (blocks indefinitely) | Yes (`tryLock(timeout, unit)`) |
-| **Fairness Policy** | Non-fair only (JVM chooses) | Fair or Non-Fair (`new ReentrantLock(true)`) |
-| **Wait / Notify Queues** | Single wait-set per monitor (`wait()`, `notify()`) | Multiple condition queues per lock (`newCondition()`) |
-| **Lock Release** | Automatic (guaranteed by JVM) | Manual (strictly requires `try { ... } finally { lock.unlock(); }`) |
+| **Condition Signaling** | Single wait-set per monitor | Multiple targeted `Condition` queues per lock |
+| **Acquisition Control** | Uninterruptible / no timed `tryLock` | Supports `tryLock(timeout)`, interruptibility & fairness policy |
+| **Syntax & Boilerplate** | Concise block/method syntax | Requires explicit `try / finally` unlock discipline |
 
 ---
 
-## ⚡ Multi-Condition Queues (`notFull` & `notEmpty`)
+## Build & Run
 
-With JVM monitors (`synchronized`), calling `notify()` or `notifyAll()` wakes threads indiscriminately from a single wait-set, leading to wasted CPU cycles and context switching.
-
-`ReentrantLock` solves this via explicit condition queues:
-* **`notFull` Condition:** Producers await when capacity is reached; consumers signal it when an element is removed.
-* **`notEmpty` Condition:** Consumers await when empty; producers signal it when an element is added.
-
----
-
-## 🧪 Production Implementation Included
-- [`BoundedEventQueue.java`](src/main/java/com/arivubuilds/concurrency/locks/BoundedEventQueue.java): High-throughput bounded blocking queue using explicit `ReentrantLock` dual-conditions.
-- [`BoundedEventQueueTest.java`](src/test/java/com/arivubuilds/concurrency/locks/BoundedEventQueueTest.java): Multi-threaded producer-consumer test verifying deadlock-free condition signaling.
+```bash
+mvn test -f 01-java-internals-mastery/02-locks-and-aqs/pom.xml -Dnet.bytebuddy.experimental=true
+```
