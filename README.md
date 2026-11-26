@@ -65,8 +65,10 @@ Maintained by: **Arivumani A** ([`@ArivuBuilds(X)`](https://x.com/ArivuBuilds) |
 ## Module 4: AI System Design and LLM Infrastructure (1/9 Published)
 
 - [x] [**Day 01:** Monolithic AI Architectures (In-process ONNX Runtime & Semaphore bulkhead)](04-ai-system-design-series/01-monolithic-ai-onnx-runtime/)
-- [ ] **Day 02:** Client-Server and Model Gateways (vLLM, SGLang, TensorRT-LLM decoupling)
-- [ ] **Day 03:** Layered RAG Architecture (Semantic chunking, Hybrid RRF, Cross-Encoder scale)
+- [x] [**Day 02:** Client-Server and Model Gateways (vLLM, SGLang, TensorRT-LLM decoupling)]
+(04-ai-system-design-series/02-client-server-model-gateway/)
+- [x] [**Day 03:** Layered RAG Architecture (Semantic chunking, Hybrid RRF, Cross-Encoder scale)]
+(04-ai-system-design-series/03-layered-rag-architecture/)
 - [ ] **Day 04:** MVC in AI Applications (Tool schemas, SSE streams, orchestrators)
 - [ ] **Day 05:** Microservices and GPU Pools (Heterogeneous node pools, KV-cache rate limits)
 - [ ] **Day 06:** Event-Driven AI Pipelines (Async Kafka/CDC embeddings and backpressure)
