@@ -1,0 +1,14 @@
+server:
+  port: 8084
+
+spring:
+  application:
+    name: mvc-in-ai-applications
+  threads:
+    virtual:
+      enabled: true
+
+ai:
+  mvc:
+    default-prompt-version: v2
+    memory-token-budget: 240

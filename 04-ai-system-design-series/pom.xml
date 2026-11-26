@@ -51,8 +51,8 @@
         <module>01-monolithic-ai-onnx-runtime</module>
         <module>02-client-server-model-gateway</module>
         <module>03-layered-rag-architecture</module>
-        <!--<module>04-mvc-in-ai-applications</module>
-        <module>05-microservices-gpu-pools</module>
+        <module>04-mvc-in-ai-applications</module>
+       <!-- <module>05-microservices-gpu-pools</module>
         <module>06-event-driven-ai-pipelines</module>
         <module>07-serverless-ai-cold-starts</module>
         <module>08-tool-use-function-calling</module>
